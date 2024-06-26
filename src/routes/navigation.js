@@ -18,12 +18,12 @@ export default function Navigation() {
 	return (
 		<SafeAreaProvider>
 			<NavigationContainer>
-				<AuthLogin/>
-				{/* {regUser !== 0 ?
+				{/* <AuthHome/> */}
+				{regUser !== 0 ?
 					<AuthLogin/>
 				:
 					<AuthHome/>
-				} */}
+				}
 			</NavigationContainer>
 		</SafeAreaProvider>
 	);
