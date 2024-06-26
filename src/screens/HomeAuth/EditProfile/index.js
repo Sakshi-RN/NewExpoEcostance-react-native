@@ -165,7 +165,7 @@ const EditProfile = ({ navigation }) => {
             setIsFocus={setCurrencyFocus}
             handleChange={handleCurrencyChange}
             placeholder={profile?.temporaryCheckoutCurrency || '...'}
-            label="Default Currency"
+            labelField="Default Currency"
           />
           <View style={styles.inputContainer}>
             <InputField

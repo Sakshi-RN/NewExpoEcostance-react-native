@@ -8,6 +8,8 @@ import { confirmAlert } from "../../../utilities/helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfile } from "../../../redux/features/profileReducer";
+import Entypo from 'react-native-vector-icons/Entypo';
+import { Colors } from "../../../theme/colors";
 
 const MyProfile = (props) => {
   const navigation = useNavigation();
@@ -62,6 +64,17 @@ const MyProfile = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuItem}
+          onPress={() => navigation.navigate("EditProfile")}
+        >
+         <Entypo
+              name="user"
+              size={20}
+              color={Colors.OFFBLACK}
+            />
+          <Text style={styles.menuItemText}>My Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuItem}
           onPress={() => navigation.navigate("Setting")}
         >
           <Image source={images.settingIcon} />
@@ -86,7 +99,7 @@ const MyProfile = (props) => {
       <View>
         <Text style={styles.headerText}>My Profile</Text>
         <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+      
             <Image
               source={
                 profile.data && profile.data.profileImage
@@ -95,7 +108,7 @@ const MyProfile = (props) => {
               }
               style={styles.profileImage}
             />
-          </TouchableOpacity>
+      
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>
               {profile.data
