@@ -1,6 +1,10 @@
-export class Fonts {
-    static regular = "WorkSans-Regular";
-    static medium = "WorkSans-Medium";
-    // static semiBold = "Montserrat-SemiBold";
-    // static bold = "Montserrat-Bold";
-}
+// import * as Font from "expo-font";
+
+// const fetchFonts = () => {
+//   return Font.loadAsync({
+//     "WorkSans-Regular": require("../assets/fonts/WorkSans-Regular.ttf"),
+//     "WorkSans-Medium": require("../assets/fonts/WorkSans-Medium.ttf"),
+//   });
+// };
+
+// export { fetchFonts };
