@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView } from 'react-native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
-import MainButton from '../../../components/MainButton';
+import MainButton from '../../../components/mainButton';
 import styles from './style';
 import { updateProfile } from '../../../redux/features/profileReducer/index';
 import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
 import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
 import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
 import DropdownComponent from '../../../components/DropdownComponent';
-import CountryCodeList from '../../../components/CountryCodeList';
-
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -30,6 +28,7 @@ const EditProfile = ({ navigation }) => {
   const [selectedCurrency, setSelectedCurrency] = useState(null);
 
   const { countryCodes, countryName } = useSelector((state) => state.country);
+
   useEffect(() => {
     if (countryName) {
       setSelectedCountry(countryName);
@@ -59,7 +58,7 @@ const EditProfile = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(fetchCountryCodes());
-  }, []);
+  }, [dispatch]);
 
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date)) {
@@ -69,11 +68,6 @@ const EditProfile = ({ navigation }) => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  };
-
-  const onDateChange = (date) => {
-    setSelectedDate(date);
-    closeCalendarModal();
   };
 
   const handleCountryChange = (item) => {
@@ -95,11 +89,12 @@ const EditProfile = ({ navigation }) => {
 
   const handleSave = () => {
     const profileData = {
-      firstName,
-      lastName,
-      dob: formatDate(selectedDate),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.trim(),
       checkoutDefaultCurrency: selectedCurrency,
       countryCode: selectedCountry,
+      dob: formatDate(selectedDate),
     };
 
     const formData = new FormData();
@@ -133,14 +128,6 @@ const EditProfile = ({ navigation }) => {
         <View style={styles.inputParent}>
           <View style={styles.inputContainer}>
             <InputField
-              placeholder="John"
-              label="First name"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <InputField
               placeholder="Smith"
               label="Last name"
               value={lastName}
@@ -152,9 +139,10 @@ const EditProfile = ({ navigation }) => {
               placeholder="jhoonsmith@gmail.com"
               label="Email"
               value={email}
+              onChangeText={setEmail}
             />
           </View>
-          {/* <DropdownComponent
+          <DropdownComponent
             data={countryData}
             selectedValue={selectedCountry}
             isFocus={isCountryFocus}
@@ -162,8 +150,7 @@ const EditProfile = ({ navigation }) => {
             handleChange={handleCountryChange}
             placeholder="USA"
             label="Country"
-          /> */}
-          <CountryCodeList/>
+          />
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -174,6 +161,8 @@ const EditProfile = ({ navigation }) => {
             label="Default Currency"
           />
           <View style={styles.inputContainer}>
+
+
             <InputField
               label="Birthday"
               placeholder="1992-09-23"
@@ -182,12 +171,12 @@ const EditProfile = ({ navigation }) => {
               onCalendarIconPress={openCalendarModal}
             />
           </View>
+          <CalendarPickerComponent
+            isCalendarModalVisible={isCalendarModalVisible}
+            closeCalendarModal={closeCalendarModal}
+            onDateChange={(date) => setSelectedDate(date)}
+          />
         </View>
-        <CalendarPickerComponent
-          isCalendarModalVisible={isCalendarModalVisible}
-          closeCalendarModal={closeCalendarModal}
-          onDateChange={onDateChange}
-        />
       </ScrollView>
       <View style={styles.buttonContainer}>
         <MainButton title="Save" onPress={handleSave} disabled={loading} />

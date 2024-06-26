@@ -15,5 +15,6 @@ export let Api = {
     calculate_express_checkout:'v1/calculate-express-checkout',
     getProfile:'updateProfile',
     getProfile:'v1/me',
-    updateProfile:'v1/save-profile-info'
+    updateProfile:'v1/save-profile-info',
+    updateAddress:'v1/addresses'
   };

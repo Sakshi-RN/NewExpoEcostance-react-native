@@ -8,17 +8,19 @@ import userReducer from '../features/userReducer'
 import carbonReducer from '../features/carbonReducer'
 import cartReducer from '../features/cartReducer'
 import profileReducer from '../features/profileReducer'
+import  ChangeAddressFunc  from '../features/changeAddressReducer'
 
 
 
 const reducer = combineReducers({
     auth:authReducer,
-    country: countryCodeReducer,
-    product: productReducer,
+    country:countryCodeReducer,
+    product:productReducer,
     user:userReducer,
     carbon:carbonReducer,
     cart:cartReducer,
-    profile:profileReducer 
+    profile:profileReducer,
+    address:ChangeAddressFunc 
 })
 
 
