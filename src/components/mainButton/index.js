@@ -52,4 +52,6 @@ const styles = StyleSheet.create({
         padding:Platform.OS =="ios" ? 18 : 16
     }
   });
-export default MainButton
+
+  
+export default MainButton;

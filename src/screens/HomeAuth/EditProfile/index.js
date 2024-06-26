@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, ScrollView } from "react-native";
 import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
 import InputField from "../../../components/CommonInput/InputField";
-// import MainButton from '../../../components/MainButton';
 import styles from "./style";
+import MainButton from "../../../components/mainButton/index";
 import { updateProfile } from "../../../redux/features/profileReducer/index";
 import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
 import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
@@ -187,7 +187,7 @@ const EditProfile = ({ navigation }) => {
         />
       </ScrollView>
       <View style={styles.buttonContainer}>
-        {/* <MainButton title="Save" onPress={handleSave} disabled={loading} /> */}
+        <MainButton title="Save" onPress={handleSave} disabled={loading} />
       </View>
     </View>
   );
