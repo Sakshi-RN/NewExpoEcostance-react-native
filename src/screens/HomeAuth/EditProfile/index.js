@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView } from 'react-native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
-import MainButton from '../../../components/MainButton';
+import MainButton from '../../../components/mainButton';
 import styles from './style';
 import { updateProfile } from '../../../redux/features/profileReducer/index';
 import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
