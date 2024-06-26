@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Modal,
-  Text,
-} from "react-native";
+import { View, ScrollView } from "react-native";
 import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
 import InputField from "../../../components/CommonInput/InputField";
-import MainButton from "../../../components/mainButton";
-import Entypo from "react-native-vector-icons/Entypo";
-import images from "../../../theme/Images";
+// import MainButton from '../../../components/MainButton';
 import styles from "./style";
-import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
-import CalendarPicker from "react-native-calendar-picker";
 import { updateProfile } from "../../../redux/features/profileReducer/index";
-import { Dropdown } from "react-native-element-dropdown";
-import { Colors } from "../../../theme/colors";
 import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
+import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
+import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
+import DropdownComponent from "../../../components/DropdownComponent";
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -32,7 +21,6 @@ const EditProfile = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -61,7 +49,7 @@ const EditProfile = ({ navigation }) => {
       setFirstName(profile.data.firstName || "");
       setLastName(profile.data.lastName || "");
       setEmail(profile.data.email || "");
-      setSelectedDate(formatDate(profile.data.dob) || "");
+      setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
     }
@@ -70,28 +58,6 @@ const EditProfile = ({ navigation }) => {
   useEffect(() => {
     dispatch(fetchCountryCodes());
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      const cameraPermission =
-        await ImagePicker.requestCameraPermissionsAsync();
-      const mediaLibraryPermission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-      if (
-        cameraPermission.status !== "granted" ||
-        mediaLibraryPermission.status !== "granted"
-      ) {
-        alert("Permission to access camera or media library is required!");
-      }
-    })();
-  }, []);
-
-  const onDateChange = (date) => {
-    setSelectedDate(date);
-    console.log(date);
-    closeCalendarModal();
-  };
 
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date)) {
@@ -103,6 +69,11 @@ const EditProfile = ({ navigation }) => {
     return `${year}-${month}-${day}`;
   };
 
+  const onDateChange = (date) => {
+    setSelectedDate(date);
+    closeCalendarModal();
+  };
+
   const handleCountryChange = (item) => {
     setSelectedCountry(item.value);
     setIsCountryFocus(false);
@@ -110,7 +81,6 @@ const EditProfile = ({ navigation }) => {
 
   const handleCurrencyChange = (item) => {
     setSelectedCurrency(item.value);
-    console.log(item.value);
     setCurrencyFocus(false);
   };
 
@@ -118,68 +88,8 @@ const EditProfile = ({ navigation }) => {
     navigation.goBack();
   };
 
-  const handleChoosePhoto = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const croppedImage = await ImageManipulator.manipulateAsync(
-        result.uri,
-        [{ crop: { originX: 0, originY: 0, width: 400, height: 400 } }],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-      );
-
-      const file = {
-        uri: croppedImage.uri,
-        type: "image/jpeg",
-        name: croppedImage.uri.split("/").pop(),
-      };
-
-      setSelectedImage(file);
-    }
-  };
-
-  const handleTakePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const croppedImage = await ImageManipulator.manipulateAsync(
-        result.uri,
-        [{ crop: { originX: 0, originY: 0, width: 400, height: 400 } }],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-      );
-
-      const file = {
-        uri: croppedImage.uri,
-        type: croppedImage.mediaType,
-        name: croppedImage.uri.split("/").pop(),
-      };
-
-      setSelectedImage(file);
-    }
-  };
-
-  const openImageModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeImageModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const closeCalendarModal = () => {
-    setIsCalendarModalVisible(false);
-  };
-
-  const openCalendarModal = () => {
-    setIsCalendarModalVisible(true);
-  };
+  const openCalendarModal = () => setIsCalendarModalVisible(true);
+  const closeCalendarModal = () => setIsCalendarModalVisible(false);
 
   const handleSave = () => {
     const profileData = {
@@ -207,164 +117,6 @@ const EditProfile = ({ navigation }) => {
     navigation.goBack();
   };
 
-  const renderInputs = () => {
-    return (
-      <View style={styles.inputParent}>
-        <View style={styles.inputContainer}>
-          <InputField
-            placeholder="John"
-            label="First name"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <InputField
-            placeholder="Smith"
-            label="Last name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <InputField
-            placeholder="jhoonsmith@gmail.com"
-            label="Email"
-            value={email}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Country</Text>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              isCountryFocus && { borderColor: Colors.OFFBLACK },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={countryData}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isCountryFocus ? "USA" : "..."}
-            searchPlaceholder="Search..."
-            value={selectedCountry}
-            onFocus={() => setIsCountryFocus(true)}
-            onBlur={() => setIsCountryFocus(false)}
-            onChange={handleCountryChange}
-            renderRightIcon={() => (
-              <View style={styles.iconStyle}>
-                <Entypo
-                  name="triangle-down"
-                  size={20}
-                  color={Colors.OFFBLACK}
-                />
-              </View>
-            )}
-            closeModalWhenSelectedItem={true}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Default Currency</Text>
-          <Dropdown
-            style={[
-              styles.dropdown,
-              isCurrencyFocus && { borderColor: Colors.OFFBLACK },
-            ]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={currencyData}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={
-              !isCurrencyFocus ? profile.temporaryCheckoutCurrency : "..."
-            }
-            searchPlaceholder="Search..."
-            value={selectedCurrency}
-            onFocus={() => setCurrencyFocus(true)}
-            onBlur={() => setCurrencyFocus(false)}
-            onChange={handleCurrencyChange}
-            renderRightIcon={() => (
-              <View style={styles.iconStyle}>
-                <Entypo
-                  name="triangle-down"
-                  size={20}
-                  color={Colors.OFFBLACK}
-                />
-              </View>
-            )}
-            closeModalWhenSelectedItem={true}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <InputField
-            label="Birthday"
-            placeholder="1992-09-23"
-            showCalendarIcon={true}
-            value={selectedDate ? formatDate(selectedDate) : ""}
-            onCalendarIconPress={openCalendarModal}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const renderImagepicker = () => {
-    return (
-      <TouchableOpacity onPress={openImageModal}>
-        <Image
-          source={
-            selectedImage
-              ? { uri: !selectedImage.uri ? selectedImage : selectedImage.uri }
-              : images.ImagePicker
-          }
-          style={styles.icon}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  const ModalContent = () => {
-    return (
-      <View style={styles.modalWrapper}>
-        <TouchableOpacity style={styles.button} onPress={handleTakePhoto}>
-          <Image source={images.CaptureImage} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleChoosePhoto}>
-          <Image source={images.selectImage} />
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const renderCalendarPicker = () => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={isCalendarModalVisible}
-        onRequestClose={closeCalendarModal}
-      >
-        <View style={styles.calendercContainer}>
-          <CalendarPicker
-            startFromMonday={true}
-            allowRangeSelection={false}
-            minDate={new Date()}
-            todayBackgroundColor="#f2e6ff"
-            selectedDayColor="#7300e6"
-            selectedDayTextColor="#FFFFFF"
-            onDateChange={onDateChange}
-          />
-        </View>
-      </Modal>
-    );
-  };
-
   return (
     <View style={styles.container}>
       <CommonHeader onBackPress={handleBackPress} />
@@ -372,26 +124,70 @@ const EditProfile = ({ navigation }) => {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {renderImagepicker()}
-        {renderInputs()}
-        {renderCalendarPicker()}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isModalVisible}
-          onRequestClose={closeImageModal}
-        >
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPressOut={closeImageModal}
-          >
-            <ModalContent />
-          </TouchableOpacity>
-        </Modal>
+        <ImagePickerComponent
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
+        <View style={styles.inputParent}>
+          <View style={styles.inputContainer}>
+            <InputField
+              placeholder="John"
+              label="First name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <InputField
+              placeholder="Smith"
+              label="Last name"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <InputField
+              placeholder="jhoonsmith@gmail.com"
+              label="Email"
+              value={email}
+            />
+          </View>
+          <DropdownComponent
+            data={countryData}
+            selectedValue={selectedCountry}
+            isFocus={isCountryFocus}
+            setIsFocus={setIsCountryFocus}
+            handleChange={handleCountryChange}
+            placeholder="USA"
+            label="Country"
+          />
+          <DropdownComponent
+            data={currencyData}
+            selectedValue={selectedCurrency}
+            isFocus={isCurrencyFocus}
+            setIsFocus={setCurrencyFocus}
+            handleChange={handleCurrencyChange}
+            placeholder={profile?.temporaryCheckoutCurrency || "..."}
+            label="Default Currency"
+          />
+          <View style={styles.inputContainer}>
+            <InputField
+              label="Birthday"
+              placeholder="1992-09-23"
+              showCalendarIcon={true}
+              value={selectedDate ? formatDate(new Date(selectedDate)) : ""}
+              onCalendarIconPress={openCalendarModal}
+            />
+          </View>
+        </View>
+        <CalendarPickerComponent
+          isCalendarModalVisible={isCalendarModalVisible}
+          closeCalendarModal={closeCalendarModal}
+          onDateChange={onDateChange}
+        />
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <MainButton title="Save" onPress={handleSave} disabled={loading} />
+        {/* <MainButton title="Save" onPress={handleSave} disabled={loading} /> */}
       </View>
     </View>
   );
