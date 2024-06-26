@@ -14,7 +14,8 @@ import MainButton from "../../../components/mainButton";
 import Entypo from "react-native-vector-icons/Entypo";
 import images from "../../../theme/Images";
 import styles from "./style";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import CalendarPicker from "react-native-calendar-picker";
 import { updateProfile } from "../../../redux/features/profileReducer/index";
 import { Dropdown } from "react-native-element-dropdown";
@@ -35,7 +36,7 @@ const EditProfile = ({ navigation }) => {
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState('USA');
+  const [selectedCountry, setSelectedCountry] = useState("USA");
   const [selectedCurrency, setSelectedCurrency] = useState(null);
 
   const { countryCodes, countryName } = useSelector((state) => state.country);
@@ -68,8 +69,23 @@ const EditProfile = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(fetchCountryCodes());
+  }, []);
 
-    },[]);
+  useEffect(() => {
+    (async () => {
+      const cameraPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
+      const mediaLibraryPermission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (
+        cameraPermission.status !== "granted" ||
+        mediaLibraryPermission.status !== "granted"
+      ) {
+        alert("Permission to access camera or media library is required!");
+      }
+    })();
+  }, []);
 
   const onDateChange = (date) => {
     setSelectedDate(date);
@@ -103,68 +119,50 @@ const EditProfile = ({ navigation }) => {
   };
 
   const handleChoosePhoto = async () => {
-    // ImagePicker.openPicker({
-    //   width: 400,
-    //   height: 400,
-    //   cropping: true,
-    // })
-    //   .then((image) => {
-    //     const file = {
-    //       uri: image.path,
-    //       type: image.mime,
-    //       name: image.path.split("/").pop(),
-    //     };
-    //     setSelectedImage(file);
-    //     closeImageModal();
-    //     closeSelectedModal();
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error picking image: ", error);
-    //   });
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const croppedImage = await ImageManipulator.manipulateAsync(
+        result.uri,
+        [{ crop: { originX: 0, originY: 0, width: 400, height: 400 } }],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      const file = {
+        uri: croppedImage.uri,
+        type: "image/jpeg",
+        name: croppedImage.uri.split("/").pop(),
+      };
+
+      setSelectedImage(file);
+    }
   };
 
   const handleTakePhoto = async () => {
-    console.log("opencamera")
-    // ImagePicker.getCameraPermissionsAsync()
-    // const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    // let result = await ImagePicker.launchCameraAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 1,
+    });
 
-    
-      if (permissionResult.granted === false) {
-        alert("You've refused to allow this app to access your photos!");
+    if (!result.canceled) {
+      const croppedImage = await ImageManipulator.manipulateAsync(
+        result.uri,
+        [{ crop: { originX: 0, originY: 0, width: 400, height: 400 } }],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
 
-      } else {
-        const result = await ImagePicker.launchCameraAsync();
-    
-        if (!result.cancelled) {
-          uploadImage(result.uri)
-        }
+      const file = {
+        uri: croppedImage.uri,
+        type: croppedImage.mediaType,
+        name: croppedImage.uri.split("/").pop(),
+      };
 
-        return result;
-      }
-    // ImagePicker.openCamera({
-    //   width: 400,
-    //   height: 400,
-    //   cropping: true,
-    // })
-    //   .then((image) => {
-    //     const file = {
-    //       uri: image.path,
-    //       type: image.mime,
-    //       name: image.path.split("/").pop(),
-    //     };
-    //     setSelectedImage(file);
-    //     closeImageModal();
-    //     closeSelectedModal();
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error taking photo: ", error);
-    //   });
+      setSelectedImage(file);
+    }
   };
 
   const openImageModal = () => {
@@ -182,7 +180,6 @@ const EditProfile = ({ navigation }) => {
   const openCalendarModal = () => {
     setIsCalendarModalVisible(true);
   };
-
 
   const handleSave = () => {
     const profileData = {
@@ -334,9 +331,7 @@ const EditProfile = ({ navigation }) => {
 
   const ModalContent = () => {
     return (
-      <View
-        style={styles.modalWrapper}
-      >
+      <View style={styles.modalWrapper}>
         <TouchableOpacity style={styles.button} onPress={handleTakePhoto}>
           <Image source={images.CaptureImage} />
         </TouchableOpacity>
@@ -403,20 +398,3 @@ const EditProfile = ({ navigation }) => {
 };
 
 export default EditProfile;
-
-
-// import React from 'react';
-// import { View } from 'react-native';
-// import styles from './style';
-
-// const EditProfile = ({ navigation }) => {
-
-
-//     return (
-//         <View style={styles.container}>
-        
-//         </View>
-//     );
-// };
-
-// export default EditProfile;
