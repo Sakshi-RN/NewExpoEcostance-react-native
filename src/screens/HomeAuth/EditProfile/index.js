@@ -10,6 +10,7 @@ import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
 import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
 import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
 import DropdownComponent from '../../../components/DropdownComponent';
+import CountryCodeList from '../../../components/CountryCodeList';
 
 
 const EditProfile = ({ navigation }) => {
@@ -147,7 +148,7 @@ const EditProfile = ({ navigation }) => {
               value={email}
             />
           </View>
-          <DropdownComponent
+          {/* <DropdownComponent
             data={countryData}
             selectedValue={selectedCountry}
             isFocus={isCountryFocus}
@@ -155,7 +156,8 @@ const EditProfile = ({ navigation }) => {
             handleChange={handleCountryChange}
             placeholder="USA"
             label="Country"
-          />
+          /> */}
+          <CountryCodeList/>
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}

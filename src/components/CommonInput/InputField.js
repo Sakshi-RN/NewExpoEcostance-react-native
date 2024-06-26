@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Text, Image } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import images from '../../theme/Images';
 import { Colors } from '../../theme/colors';
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
-
+import images from '../../theme/Images'
 
 const InputField = (props) => {
   const {
@@ -25,7 +24,10 @@ const InputField = (props) => {
     showDropdownIcon,
     showCalendarIcon,
     onCalendarIconPress,
-    errorMessage, // New prop for error message
+    errorMessage,
+    onDropDownPress,
+    showFlag,
+    imagePath,
   } = props;
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);
@@ -43,6 +45,7 @@ const InputField = (props) => {
     <View>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputContainer}>
+      {showFlag && imagePath && <Image source={{ uri: imagePath }} style={styles.flagImage} />}
         <TextInput
           placeholder={placeholder}
           placeholderTextColor={Colors.grey}
@@ -59,12 +62,9 @@ const InputField = (props) => {
           onFocus={onFocus}
         />
         {secureTextEntry && (
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={togglePasswordVisibility}
-          >
+          <TouchableOpacity style={styles.iconContainer} onPress={togglePasswordVisibility}>
             <Entypo
-              name={isPasswordVisible ? "eye" : "eye-with-line"}
+              name={isPasswordVisible ? 'eye' : 'eye-with-line'}
               size={20}
               color={Colors.OFFBLACK}
             />
@@ -79,15 +79,12 @@ const InputField = (props) => {
           </TouchableOpacity>
         )}
         {showDropdownIcon && (
-          <TouchableOpacity style={styles.iconContainer}>
+          <TouchableOpacity style={styles.iconContainer} onPress={onDropDownPress}>
             <Entypo name="triangle-down" size={20} color={Colors.OFFBLACK} />
           </TouchableOpacity>
         )}
         {showCalendarIcon && (
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={onCalendarIconPress}
-          >
+          <TouchableOpacity style={styles.iconContainer} onPress={onCalendarIconPress}>
             <Entypo name="calendar" size={15} color={Colors.OFFBLACK} />
           </TouchableOpacity>
         )}
@@ -104,8 +101,8 @@ const styles = StyleSheet.create({
     color: Colors.OFFBLACK,
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 10,
     height: responsiveHeight(8),
     marginVertical: 10,
@@ -115,6 +112,11 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
   },
+  flagImage: {
+    width: 30,
+    height: 20,
+    marginRight: 10,
+  },
   iconContainer: {
     marginRight: 10,
   },
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   errorText: {
-    color: "red",
+    color: 'red',
     fontSize: responsiveFontSize(1.5),
     marginTop: 5,
   },
