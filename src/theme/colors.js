@@ -18,7 +18,6 @@ export class Colors {
     static LIGHTBLUE = "#7DB1D1";
     static PLACEHOLDERBLUE = "#F7F9F9";
     static RED = "red";
-    // static PLACEHOLDERBLUE = "#7db1d140";
     static PINK = '#E0245E';
     static white = "#ffffff";
     static labelColor = "#666666";
