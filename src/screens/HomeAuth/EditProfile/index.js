@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { View, ScrollView } from "react-native";
-import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
-import InputField from "../../../components/CommonInput/InputField";
-import styles from "./style";
-import MainButton from "../../../components/mainButton/index";
-import { updateProfile } from "../../../redux/features/profileReducer/index";
-import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
-import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
-import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
-import DropdownComponent from "../../../components/DropdownComponent";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { View, ScrollView } from 'react-native';
+import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
+import InputField from '../../../components/CommonInput/InputField';
+import MainButton from '../../../components/MainButton';
+import styles from './style';
+import { updateProfile } from '../../../redux/features/profileReducer/index';
+import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
+import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
+import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
+import DropdownComponent from '../../../components/DropdownComponent';
+import CountryCodeList from '../../../components/CountryCodeList';
+
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -152,7 +154,7 @@ const EditProfile = ({ navigation }) => {
               value={email}
             />
           </View>
-          <DropdownComponent
+          {/* <DropdownComponent
             data={countryData}
             selectedValue={selectedCountry}
             isFocus={isCountryFocus}
@@ -160,7 +162,8 @@ const EditProfile = ({ navigation }) => {
             handleChange={handleCountryChange}
             placeholder="USA"
             label="Country"
-          />
+          /> */}
+          <CountryCodeList/>
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
