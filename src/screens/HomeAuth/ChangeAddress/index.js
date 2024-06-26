@@ -6,6 +6,7 @@ import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
 import styles from './style';
 import { Change_Address } from '../../../redux/features/changeAddressReducer';
+import MainButton from '../../../components/mainButton';
 
 const ChangeAddress = () => {
     const dispatch = useDispatch();
@@ -79,12 +80,10 @@ const ChangeAddress = () => {
                     />
                 </View>
             </ScrollView>
-
             <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={handleSave} disabled={loading}>
-                    <Text>Save</Text>
-                </TouchableOpacity>
-            </View>
+        <MainButton title="Save" onPress={handleSave} disabled={loading} />
+      </View>
+           
         </View>
     );
 };
