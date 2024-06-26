@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Image, Modal, View } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import styles from '../../screens/HomeAuth/EditProfile/style';
-import images from '../../theme/Images';
-
-
+import React, { useState, useEffect } from "react";
+import { TouchableOpacity, Image, Modal, View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
+import styles from "../../screens/HomeAuth/EditProfile/style";
+import images from "../../theme/Images";
 
 const ImagePickerComponent = ({ selectedImage, setSelectedImage }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -12,38 +11,67 @@ const ImagePickerComponent = ({ selectedImage, setSelectedImage }) => {
   const openImageModal = () => setIsModalVisible(true);
   const closeImageModal = () => setIsModalVisible(false);
 
+  useEffect(() => {
+    (async () => {
+      const cameraPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
+      const mediaLibraryPermission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (
+        cameraPermission.status !== "granted" ||
+        mediaLibraryPermission.status !== "granted"
+      ) {
+        alert("Permission to access camera or media library is required!");
+      }
+    })();
+  }, []);
+
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setSelectedImage(result);
+    if (!result.canceled && result.assets.length > 0) {
+      const croppedImage = await ImageManipulator.manipulateAsync(
+        result.assets[0].uri,
+        [{ resize: { width: 400, height: 400 } }],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      const file = {
+        uri: croppedImage.uri,
+        type: "image/jpeg",
+        name: croppedImage.uri.split("/").pop(),
+      };
+
+      setSelectedImage(file);
     }
-    closeImageModal();
   };
 
   const handleTakePhoto = async () => {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("You've refused to allow this app to access your photos!");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setSelectedImage(result);
+    if (!result.canceled && result.assets.length > 0) {
+      const croppedImage = await ImageManipulator.manipulateAsync(
+        result.assets[0].uri,
+        [{ resize: { width: 400, height: 400 } }],
+        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+      );
+
+      const file = {
+        uri: croppedImage.uri,
+        type: "image/jpeg",
+        name: croppedImage.uri.split("/").pop(),
+      };
+
+      setSelectedImage(file);
     }
-    closeImageModal();
   };
 
   return (
@@ -54,7 +82,12 @@ const ImagePickerComponent = ({ selectedImage, setSelectedImage }) => {
             ? { uri: selectedImage.uri }
             : images.uploadPic
         }
-        style={{width:100,height:100,alignSelf:'center',borderRadius:50}}
+        style={{
+          width: 100,
+          height: 100,
+          alignSelf: "center",
+          borderRadius: 50,
+        }}
       />
       <Modal
         animationType="slide"

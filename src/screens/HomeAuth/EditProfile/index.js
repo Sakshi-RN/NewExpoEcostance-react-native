@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, ScrollView } from 'react-native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
-// import MainButton from '../../../components/MainButton';
+import MainButton from '../../../components/MainButton';
 import styles from './style';
 import { updateProfile } from '../../../redux/features/profileReducer/index';
 import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
@@ -20,13 +20,13 @@ const EditProfile = ({ navigation }) => {
 
   const [isCountryFocus, setIsCountryFocus] = useState(false);
   const [isCurrencyFocus, setCurrencyFocus] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState('USA');
+  const [selectedCountry, setSelectedCountry] = useState("USA");
   const [selectedCurrency, setSelectedCurrency] = useState(null);
 
   const { countryCodes, countryName } = useSelector((state) => state.country);
@@ -48,12 +48,12 @@ const EditProfile = ({ navigation }) => {
 
   useEffect(() => {
     if (profile) {
-      setFirstName(profile.data.firstName || '');
-      setLastName(profile.data.lastName || '');
-      setEmail(profile.data.email || '');
-      setSelectedDate(new Date(profile.data.dob) || '');
-      setSelectedImage(profile.data.profileImage || '');
-      setSelectedCurrency(profile.data.checkoutDefaultCurrency || '');
+      setFirstName(profile.data.firstName || "");
+      setLastName(profile.data.lastName || "");
+      setEmail(profile.data.email || "");
+      setSelectedDate(new Date(profile.data.dob) || "");
+      setSelectedImage(profile.data.profileImage || "");
+      setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
     }
   }, [profile]);
 
@@ -63,11 +63,11 @@ const EditProfile = ({ navigation }) => {
 
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date)) {
-      return '';
+      return "";
     }
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -108,7 +108,7 @@ const EditProfile = ({ navigation }) => {
     });
 
     if (selectedImage) {
-      formData.append('profileImage', {
+      formData.append("profileImage", {
         uri: selectedImage.uri,
         type: selectedImage.type,
         name: selectedImage.name,
@@ -122,8 +122,14 @@ const EditProfile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <CommonHeader onBackPress={handleBackPress} />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <ImagePickerComponent selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        <ImagePickerComponent
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
         <View style={styles.inputParent}>
           <View style={styles.inputContainer}>
             <InputField
@@ -164,7 +170,7 @@ const EditProfile = ({ navigation }) => {
             isFocus={isCurrencyFocus}
             setIsFocus={setCurrencyFocus}
             handleChange={handleCurrencyChange}
-            placeholder={profile?.temporaryCheckoutCurrency || '...'}
+            placeholder={profile?.temporaryCheckoutCurrency || "..."}
             label="Default Currency"
           />
           <View style={styles.inputContainer}>
@@ -172,7 +178,7 @@ const EditProfile = ({ navigation }) => {
               label="Birthday"
               placeholder="1992-09-23"
               showCalendarIcon={true}
-              value={selectedDate ? formatDate(new Date(selectedDate)) : ''}
+              value={selectedDate ? formatDate(new Date(selectedDate)) : ""}
               onCalendarIconPress={openCalendarModal}
             />
           </View>
@@ -184,7 +190,7 @@ const EditProfile = ({ navigation }) => {
         />
       </ScrollView>
       <View style={styles.buttonContainer}>
-        {/* <MainButton title="Save" onPress={handleSave} disabled={loading} /> */}
+        <MainButton title="Save" onPress={handleSave} disabled={loading} />
       </View>
     </View>
   );

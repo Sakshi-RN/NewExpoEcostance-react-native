@@ -3,6 +3,7 @@
     "name": "ecostance-mobile-app-react-native",
     "slug": "ecostance-mobile-app-react-native",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,6 +18,15 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./src/assets/fonts/WorkSans-Medium.ttf",
+            "./src/assets/fonts/WorkSans-Regular.ttf"
+          ]
+        }
       ]
     ],
     "ios": {
@@ -27,9 +37,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
