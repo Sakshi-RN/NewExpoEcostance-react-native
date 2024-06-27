@@ -32,6 +32,7 @@ const EditProfile = ({ navigation }) => {
   const [selectedCurrency, setSelectedCurrency] = useState(null);
 
   const { countryCodes, countryName } = useSelector((state) => state.country);
+
   useEffect(() => {
     if (countryName) {
       setSelectedCountry(countryName);
@@ -62,7 +63,7 @@ const EditProfile = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(fetchCountryCodes());
-  }, []);
+  }, [dispatch]);
 
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date)) {
@@ -72,11 +73,6 @@ const EditProfile = ({ navigation }) => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  };
-
-  const onDateChange = (date) => {
-    setSelectedDate(date);
-    closeCalendarModal();
   };
 
   const handleCountryChange = (item) => {
@@ -98,11 +94,12 @@ const EditProfile = ({ navigation }) => {
 
   const handleSave = () => {
     const profileData = {
-      firstName,
-      lastName,
-      dob: formatDate(selectedDate),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.trim(),
       checkoutDefaultCurrency: selectedCurrency,
       countryCode: selectedCountry,
+      dob: formatDate(selectedDate),
     };
 
     const formData = new FormData();
@@ -137,14 +134,6 @@ const EditProfile = ({ navigation }) => {
         <View style={styles.inputParent}>
           <View style={styles.inputContainer}>
             <InputField
-              placeholder="John"
-              label="First name"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <InputField
               placeholder="Smith"
               label="Last name"
               value={lastName}
@@ -156,9 +145,18 @@ const EditProfile = ({ navigation }) => {
               placeholder="jhoonsmith@gmail.com"
               label="Email"
               value={email}
+              onChangeText={setEmail}
             />
           </View>
-          <CountryCodeList />
+          <DropdownComponent
+            data={countryData}
+            selectedValue={selectedCountry}
+            isFocus={isCountryFocus}
+            setIsFocus={setIsCountryFocus}
+            handleChange={handleCountryChange}
+            placeholder="USA"
+            label="Country"
+          />
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -177,12 +175,12 @@ const EditProfile = ({ navigation }) => {
               onCalendarIconPress={openCalendarModal}
             />
           </View>
+          <CalendarPickerComponent
+            isCalendarModalVisible={isCalendarModalVisible}
+            closeCalendarModal={closeCalendarModal}
+            onDateChange={(date) => setSelectedDate(date)}
+          />
         </View>
-        <CalendarPickerComponent
-          isCalendarModalVisible={isCalendarModalVisible}
-          closeCalendarModal={closeCalendarModal}
-          onDateChange={onDateChange}
-        />
       </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

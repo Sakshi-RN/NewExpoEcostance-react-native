@@ -5,9 +5,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import styles from '../../screens/HomeAuth/EditProfile/style';
 import { Colors } from '../../theme/colors';
 
-const DropdownComponent = ({ data, selectedValue, isFocus, setIsFocus, handleChange, placeholder }) => {
+const DropdownComponent = ({ data, selectedValue, isFocus, setIsFocus, handleChange, placeholder,label }) => {
   return (
     <View style={styles.inputContainer}>
+      <Text style={styles.label}>{label}</Text>
       <Dropdown
         style={[
           styles.dropdown,

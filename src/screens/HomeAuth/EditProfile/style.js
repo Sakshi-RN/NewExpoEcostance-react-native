@@ -112,7 +112,7 @@ export default StyleSheet.create({
     },
 
     label: {
-        marginBottom: 5,
+        // marginBottom: 5,
         fontSize: responsiveFontSize(2),
         color: Colors.OFFBLACK,
     },
@@ -120,5 +120,13 @@ export default StyleSheet.create({
         flex:1,
         justifyContent:'center',
         alignItems:'center'
-    }
+    },
+    errorText:{
+        color:Colors.RED
+    },
+    label: {
+        marginBottom: 5,
+        fontSize: responsiveFontSize(2),
+        color: Colors.OFFBLACK,
+      },
 });
