@@ -19,7 +19,7 @@ import * as Yup from 'yup'
 import { showErrorMessage, showSuccessMessage } from '../../../utilities/helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../../../theme/colors';
-import Entypo from 'react-native-vector-icons/Entypo'; 
+import Entypo from 'react-native-vector-icons/Entypo';
 import styles from './style'
 
 const Login = (props) => {
@@ -67,12 +67,14 @@ const handleFormSubmission = async(values)=>{
                 let dataResponse = dispatch(auth.resetRegType(data))
                 AsyncStorage.setItem('loginUser', JSON.stringify(dataResponse?.payload?.value))
                 AsyncStorage.setItem('loginData', JSON.stringify(responseJson?.payload?.data))
+                showSuccessMessage("User login successfully")
+                // RNRestart.restart();
+                props.navigation.navigate("Home")
             }else if(responseJson?.payload?.success == false){
                 showErrorMessage(responseJson?.payload?.message)
             }
         })
         .catch((error) => {
-            console.error(error);
             showErrorMessage(error.message)
         });
     }
