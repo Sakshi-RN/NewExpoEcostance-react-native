@@ -1,10 +1,13 @@
-import React from 'react';
-import { Modal, View } from 'react-native';
+import React,{useState} from 'react';
+import { Modal, View, TouchableWithoutFeedback } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import styles from '../../screens/HomeAuth/EditProfile/style';
+import MainButton from "../MainButton";
 
 
 const CalendarPickerComponent = ({ isCalendarModalVisible, closeCalendarModal, onDateChange }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <Modal
       animationType="slide"
@@ -12,17 +15,22 @@ const CalendarPickerComponent = ({ isCalendarModalVisible, closeCalendarModal, o
       visible={isCalendarModalVisible}
       onRequestClose={closeCalendarModal}
     >
-      <View style={styles.calendercContainer}>
-        <CalendarPicker
-          startFromMonday={true}
-          allowRangeSelection={false}
-          minDate={new Date()}
-          todayBackgroundColor="#f2e6ff"
-          selectedDayColor="#7300e6"
-          selectedDayTextColor="#FFFFFF"
-          onDateChange={onDateChange}
-        />
-      </View>
+      <TouchableWithoutFeedback onPress={closeCalendarModal}>
+        <View style={styles.calendercContainer}>
+          <CalendarPicker
+            startFromMonday={true}
+            allowRangeSelection={false}
+            minDate={new Date()}
+            todayBackgroundColor="#f2e6ff"
+            selectedDayColor="#7300e6"
+            selectedDayTextColor="#FFFFFF"
+            onDateChange={onDateChange}
+          />
+          <MainButton
+            title='Close'
+            onPress={closeCalendarModal} />
+        </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

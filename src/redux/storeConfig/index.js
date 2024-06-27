@@ -33,7 +33,7 @@ const thunkResponseLogger = (storeAPI) => (next) => async (action) => {
 const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(thunkResponseLogger, logger),
+    getDefaultMiddleware().concat(thunkResponseLogger,logger),
   devTools: process.env.NODE_ENV !== "production",
   enhancers: (getDefaultEnhancers) =>
     getDefaultEnhancers({

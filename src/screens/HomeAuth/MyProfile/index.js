@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView,Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
 import images from "../../../theme/Images";
@@ -11,7 +18,7 @@ import { fetchProfile } from "../../../redux/features/profileReducer";
 import Entypo from "react-native-vector-icons/Entypo";
 import { Colors } from "../../../theme/colors";
 
-const MyProfile = (props) => {
+const MyProfile = () => {
   const navigation = useNavigation();
   const profile = useSelector((state) => state.profile.data);
   const dispatch = useDispatch();
@@ -101,8 +108,8 @@ const MyProfile = (props) => {
         <View style={styles.profileContainer}>
           <Image
             source={
-              profile.data && profile.data.profileImage
-                ? { uri: profile.data.profileImage }
+              profile.data && profile.data?.profileImage
+                ? { uri: profile.data?.profileImage }
                 : images.uploadPic
             }
             style={styles.profileImage}
@@ -110,9 +117,9 @@ const MyProfile = (props) => {
 
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>
-              {profile.data
-                ? profile.data.firstName + " " + profile.data.lastName
-                : "John Smith"}
+              {profile.data?.firstName || profile.data?.lastName
+                ? profile.data?.firstName + " " + profile.data?.lastName
+                : "Add Your Name"}
             </Text>
             <Text style={styles.profileEmail}>
               {profile.data ? profile.data.email : "jhoonsmith@gmail.com"}
