@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
 import styles from './style';
-import { Change_Address } from '../../../redux/features/changeAddressReducer';
+import { Change_Address, Set_Address_Field } from '../../../redux/features/changeAddressReducer';
 import MainButton from '../../../components/MainButton';
 import CountryComponent from '../../../components/CountryComponent';
 import StateComponent from '../../../components/StateComponent';
@@ -17,15 +17,6 @@ const ChangeAddress = () => {
     const address = useSelector((state) => state.address.data);
     const loading = useSelector((state) => state.address.updateLoading);
 
-    const [addressLine1, setAddressLine1] = useState('');
-    const [addressLine2, setAddressLine2] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [country, setCountry] = useState('');
-    const [pincode, setPincode] = useState('');
-    const [selectedCountry, setSelectedCountry] = useState('');
-    const [selectedState, setSelectedState] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
     const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
     const [isStateModalVisible, setIsStateModalVisible] = useState(false);
     const [isCityModalVisible, setIsCityModalVisible] = useState(false);
@@ -49,36 +40,25 @@ const ChangeAddress = () => {
     };
 
     const handleSelectCountry = (countryCode) => {
-        setSelectedCountry(countryCode);
-        setSelectedState('');
-        setSelectedCity('');
+        dispatch(Set_Address_Field({ field: 'country', value: countryCode }));
+        dispatch(Set_Address_Field({ field: 'state', value: '' }));
+        dispatch(Set_Address_Field({ field: 'city', value: '' }));
         setIsCountryModalVisible(false);
-        setCountryError(''); 
+        setCountryError('');
     };
 
     const handleSelectState = (stateCode) => {
-        setSelectedState(stateCode);
-        setSelectedCity('');
+        dispatch(Set_Address_Field({ field: 'state', value: stateCode }));
+        dispatch(Set_Address_Field({ field: 'city', value: '' }));
         setIsStateModalVisible(false);
-        setStateError(''); 
+        setStateError('');
     };
 
     const handleSelectCity = (cityName) => {
-        setSelectedCity(cityName);
+        dispatch(Set_Address_Field({ field: 'city', value: cityName }));
         setIsCityModalVisible(false);
-        setCityError(''); 
+        setCityError('');
     };
-
-    useEffect(() => {
-        if (address) {
-            setAddressLine1(address.addressLine1 || '');
-            setAddressLine2(address.addressLine2 || '');
-            setCity(address.city || '');
-            setState(address.state || '');
-            setCountry(address.country || '');
-            setPincode(address.pincode || '');
-        }
-    }, [address]);
 
     const handleBackPress = () => {
         navigation.goBack();
@@ -86,23 +66,23 @@ const ChangeAddress = () => {
 
     const validateFields = () => {
         let valid = true;
-        if (!selectedCountry) {
+        if (!address.country) {
             setCountryError("Please select a country");
             valid = false;
         }
-        if (!selectedState) {
+        if (!address.state) {
             setStateError("Please select a state");
             valid = false;
         }
-        if (!selectedCity) {
+        if (!address.city) {
             setCityError("Please select a city");
             valid = false;
         }
-        if (!addressLine1.trim()) {
+        if (!address.addressLine1.trim()) {
             setAddressLine1Error("Address Line 1 is required");
             valid = false;
         }
-        if (!pincode.trim()) {
+        if (!address.pincode.trim()) {
             setPincodeError("Pincode is required");
             valid = false;
         }
@@ -114,29 +94,20 @@ const ChangeAddress = () => {
             return;
         }
 
-        const addressData = {
-            addressLine1,
-            addressLine2,
-            city: selectedCity,
-            state: selectedState,
-            country: selectedCountry,
-            pincode,
-        };
-
-        dispatch(Change_Address(addressData));
+        dispatch(Change_Address(address));
         navigation.goBack();
     };
 
     const renderCountryList = () => {
         return (
-            <View >
+            <View>
                 <View style={styles.inputContainer}>
                     <InputField
                         placeholder="Select your Country"
                         showDropdownIcon
                         onDropDownPress={toggleCountryModal}
                         label={'Country'}
-                        value={selectedCountry}
+                        value={address.country}
                     />
                     {countryError ? <Text style={styles.errorText}>{countryError}</Text> : null}
                 </View>
@@ -146,7 +117,7 @@ const ChangeAddress = () => {
                         showDropdownIcon
                         onDropDownPress={toggleStateModal}
                         label={'State'}
-                        value={selectedState}
+                        value={address.state}
                     />
                     {stateError ? <Text style={styles.errorText}>{stateError}</Text> : null}
                 </View>
@@ -156,7 +127,7 @@ const ChangeAddress = () => {
                         showDropdownIcon
                         onDropDownPress={toggleCityModal}
                         label={'City'}
-                        value={selectedCity}
+                        value={address.city}
                     />
                     {cityError ? <Text style={styles.errorText}>{cityError}</Text> : null}
                 </View>
@@ -169,18 +140,18 @@ const ChangeAddress = () => {
                     isVisible={isStateModalVisible}
                     toggleModal={toggleStateModal}
                     onSelectState={handleSelectState}
-                    selectedCountry={selectedCountry}
+                    selectedCountry={address.country}
                 />
                 <CityComponent
                     isVisible={isCityModalVisible}
                     toggleModal={toggleCityModal}
                     onSelectCity={handleSelectCity}
-                    selectedCountry={selectedCountry}
-                    selectedState={selectedState}
+                    selectedCountry={address.country}
+                    selectedState={address.state}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -191,10 +162,10 @@ const ChangeAddress = () => {
                 <View style={styles.inputContainer}>
                     <InputField
                         placeholder="Address Line 1"
-                        value={addressLine1}
+                        value={address.addressLine1}
                         onChangeText={(text) => {
-                            setAddressLine1(text);
-                            setAddressLine1Error(''); 
+                            dispatch(Set_Address_Field({ field: 'addressLine1', value: text }));
+                            setAddressLine1Error('');
                         }}
                     />
                     {addressLine1Error ? <Text style={styles.errorText}>{addressLine1Error}</Text> : null}
@@ -202,17 +173,19 @@ const ChangeAddress = () => {
                 <View style={styles.inputContainer}>
                     <InputField
                         placeholder="Address Line 2"
-                        value={addressLine2}
-                        onChangeText={setAddressLine2}
+                        value={address.addressLine2}
+                        onChangeText={(text) => {
+                            dispatch(Set_Address_Field({ field: 'addressLine2', value: text }));
+                        }}
                     />
                 </View>
                 <View style={styles.inputContainer}>
                     <InputField
                         placeholder="ZIP Code / Pin code"
-                        value={pincode}
+                        value={address.pincode}
                         onChangeText={(text) => {
-                            setPincode(text);
-                            setPincodeError(''); 
+                            dispatch(Set_Address_Field({ field: 'pincode', value: text }));
+                            setPincodeError('');
                         }}
                     />
                     {pincodeError ? <Text style={styles.errorText}>{pincodeError}</Text> : null}
