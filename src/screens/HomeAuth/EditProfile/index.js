@@ -1,3 +1,16 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { View, ScrollView } from 'react-native';
+import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
+import InputField from '../../../components/CommonInput/InputField';
+import MainButton from '../../../components/mainButton';
+import styles from './style';
+import { updateProfile } from '../../../redux/features/profileReducer/index';
+import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
+import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
+import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
+import DropdownComponent from '../../../components/DropdownComponent';
+import CountryComponent from '../../../components/CountryComponent';
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, ScrollView, TouchableOpacity, Text } from "react-native";
@@ -28,10 +41,24 @@ const EditProfile = ({ navigation }) => {
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState("USA");
+  // const [selectedCountry, setSelectedCountry] = useState("USA");
   const [selectedCurrency, setSelectedCurrency] = useState(null);
-
   const { countryCodes, countryName } = useSelector((state) => state.country);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
+
+
+  const toggleCountryModal = () => {
+      setIsCountryModalVisible(!isCountryModalVisible);
+  };
+
+
+  const handleSelectCountry = (countryCode) => {
+      setSelectedCountry(countryCode);
+      setIsCountryModalVisible(false);
+  };
+
+
 
   useEffect(() => {
     if (countryName) {
@@ -148,7 +175,20 @@ const EditProfile = ({ navigation }) => {
               onChangeText={setEmail}
             />
           </View>
-          <DropdownComponent
+          <View style={styles.inputContainer}>
+                    <InputField
+                        placeholder="Select your Country"
+                        showDropdownIcon
+                        onDropDownPress={toggleCountryModal}
+                        label={'Country'}
+                    />
+                </View>
+                <CountryComponent
+                    isVisible={isCountryModalVisible}
+                    toggleModal={toggleCountryModal}
+                    onSelectCountry={handleSelectCountry}
+                />
+          {/* <DropdownComponent
             data={countryData}
             selectedValue={selectedCountry}
             isFocus={isCountryFocus}
@@ -156,7 +196,7 @@ const EditProfile = ({ navigation }) => {
             handleChange={handleCountryChange}
             placeholder="USA"
             label="Country"
-          />
+          /> */}
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -204,3 +244,6 @@ const EditProfile = ({ navigation }) => {
 };
 
 export default EditProfile;
+
+
+
