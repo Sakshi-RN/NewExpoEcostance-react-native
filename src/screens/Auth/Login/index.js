@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+<<<<<<< HEAD
   View,
   KeyboardAvoidingView,
   Text,
@@ -26,6 +27,28 @@ import Entypo from "react-native-vector-icons/Entypo";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 
+=======
+    View, 
+    KeyboardAvoidingView, 
+    Text, 
+    Platform, 
+    ScrollView, 
+    TouchableOpacity
+} from 'react-native'
+import ImageWrapper from '../../../components/image'
+import imagePaths from '../../../utilities/imagePaths'
+import { InputBox } from '../../../components/inputBox'
+import MainButton from '../../../components/MainButton'
+import Header from '../../../components/header'
+import { auth } from '../../../redux/features/authReducer'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { showErrorMessage, showSuccessMessage } from '../../../utilities/helpers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Colors } from '../../../theme/colors';
+import Entypo from 'react-native-vector-icons/Entypo';
+import styles from './style'
+>>>>>>> bf9e0d92f4704fe9ca0057e3d6f02d9632c3b03f
 
 const Login = (props) => {
   const { loginLoading } = useSelector((state) => state.auth);

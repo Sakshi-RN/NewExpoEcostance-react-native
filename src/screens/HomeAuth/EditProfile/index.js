@@ -12,7 +12,7 @@ import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
 import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
 import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
 import DropdownComponent from "../../../components/DropdownComponent";
-import { Colors } from "../../../theme/colors";
+import MainButton from "../../../components/MainButton";
 import CountryComponent from "../../../components/CountryComponent";
 
 const EditProfile = ({ navigation }) => {
@@ -20,7 +20,6 @@ const EditProfile = ({ navigation }) => {
   const profile = useSelector((state) => state.profile.data);
   const loading = useSelector((state) => state.profile.updateLoading);
 
-  const [isCountryFocus, setIsCountryFocus] = useState(false);
   const [isCurrencyFocus, setCurrencyFocus] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,6 +32,9 @@ const EditProfile = ({ navigation }) => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
 
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+
   const handleSelectCountry = (country) => {
     setSelectedCountry(country.name);
     setIsCountryModalVisible(false);
@@ -44,10 +46,6 @@ const EditProfile = ({ navigation }) => {
     }
   }, [countryName]);
 
-  const countryData = countryCodes.map((code) => ({
-    label: code.name,
-    value: code.name,
-  }));
 
   const currencyData = countryCodes.map((code) => ({
     label: code.currencyName,
@@ -62,8 +60,7 @@ const EditProfile = ({ navigation }) => {
       setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
-      setSelectedCountry(profile.data.countryName || ""); // Ensure this uses the country name
-      console.log(profile);
+      setSelectedCountry(profile.data.countryName || "");
     }
   }, [profile]);
 
@@ -81,10 +78,6 @@ const EditProfile = ({ navigation }) => {
     return `${year}-${month}-${day}`;
   };
 
-  const handleCountryChange = (item) => {
-    setSelectedCountry(item.value);
-    setIsCountryFocus(false);
-  };
 
   const toggleCountryModal = () => {
     setIsCountryModalVisible(!isCountryModalVisible);
@@ -102,32 +95,54 @@ const EditProfile = ({ navigation }) => {
   const openCalendarModal = () => setIsCalendarModalVisible(true);
   const closeCalendarModal = () => setIsCalendarModalVisible(false);
 
-  const handleSave = () => {
-    const profileData = {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim(),
-      checkoutDefaultCurrency: selectedCurrency,
-      countryCode: selectedCountry,
-      dob: formatDate(selectedDate),
-    };
+  const validateFields = () => {
+    let isValid = true;
 
-    const formData = new FormData();
-    Object.keys(profileData).forEach((key) => {
-      formData.append(key, profileData[key]);
-    });
-
-    if (selectedImage) {
-      formData.append("profileImage", {
-        uri: selectedImage.uri,
-        type: selectedImage.type,
-        name: selectedImage.name,
-      });
+    if (!firstName.trim()) {
+      setFirstNameError("First name is required");
+      isValid = false;
+    } else {
+      setFirstNameError("");
     }
 
-    dispatch(updateProfile(formData));
-    navigation.goBack();
-    dispatch(fetchProfile());
+    if (!lastName.trim()) {
+      setLastNameError("Last name is required");
+      isValid = false;
+    } else {
+      setLastNameError("");
+    }
+
+    return isValid;
+  };
+
+  const handleSave = () => {
+    if (validateFields()) {
+      const profileData = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        checkoutDefaultCurrency: selectedCurrency,
+        countryCode: selectedCountry,
+        dob: formatDate(selectedDate),
+      };
+
+      const formData = new FormData();
+      Object.keys(profileData).forEach((key) => {
+        formData.append(key, profileData[key]);
+      });
+
+      if (selectedImage) {
+        formData.append("profileImage", {
+          uri: selectedImage.uri,
+          type: selectedImage.type,
+          name: selectedImage.name,
+        });
+      }
+
+      dispatch(updateProfile(formData));
+      navigation.goBack();
+      dispatch(fetchProfile());
+    }
   };
 
   return (
@@ -149,6 +164,9 @@ const EditProfile = ({ navigation }) => {
               value={firstName}
               onChangeText={setFirstName}
             />
+            {firstNameError ? (
+              <Text style={styles.errorText}>{firstNameError}</Text>
+            ) : null}
           </View>
           <View style={styles.inputContainer}>
             <InputField
@@ -157,6 +175,9 @@ const EditProfile = ({ navigation }) => {
               value={lastName}
               onChangeText={setLastName}
             />
+            {lastNameError ? (
+              <Text style={styles.errorText}>{lastNameError}</Text>
+            ) : null}
           </View>
           <View style={styles.inputContainer}>
             <InputField
@@ -206,21 +227,7 @@ const EditProfile = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          activeOpacity={0.3}
-          style={[
-            styles.button,
-            { backgroundColor: loading ? Colors.SECONDARY : Colors.OFFBLACK },
-          ]}
-          onPress={handleSave}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size={"small"} color={Colors.WHITE} />
-          ) : (
-            <Text style={[styles.text]}>Save</Text>
-          )}
-        </TouchableOpacity>
+      <MainButton title="Save" onPress={handleSave} disabled={loading} />
       </View>
     </View>
   );
