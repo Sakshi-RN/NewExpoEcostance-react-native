@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, ScrollView, TouchableOpacity, Text } from "react-native";
+import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
 import InputField from "../../../components/CommonInput/InputField";
 import styles from "./style";
@@ -14,6 +13,7 @@ import ImagePickerComponent from "../../../components/ImagePickerComponent/index
 import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
 import DropdownComponent from "../../../components/DropdownComponent";
 import { Colors } from "../../../theme/colors";
+import CountryComponent from "../../../components/CountryComponent";
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -28,24 +28,15 @@ const EditProfile = ({ navigation }) => {
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  // const [selectedCountry, setSelectedCountry] = useState("USA");
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   const { countryCodes, countryName } = useSelector((state) => state.country);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
 
-
-  const toggleCountryModal = () => {
-      setIsCountryModalVisible(!isCountryModalVisible);
+  const handleSelectCountry = (country) => {
+    setSelectedCountry(country.name);
+    setIsCountryModalVisible(false);
   };
-
-
-  const handleSelectCountry = (countryCode) => {
-      setSelectedCountry(countryCode);
-      setIsCountryModalVisible(false);
-  };
-
-
 
   useEffect(() => {
     if (countryName) {
@@ -71,6 +62,7 @@ const EditProfile = ({ navigation }) => {
       setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
+      setSelectedCountry(profile.data.countryName || ""); // Ensure this uses the country name
       console.log(profile);
     }
   }, [profile]);
@@ -92,6 +84,10 @@ const EditProfile = ({ navigation }) => {
   const handleCountryChange = (item) => {
     setSelectedCountry(item.value);
     setIsCountryFocus(false);
+  };
+
+  const toggleCountryModal = () => {
+    setIsCountryModalVisible(!isCountryModalVisible);
   };
 
   const handleCurrencyChange = (item) => {
@@ -148,7 +144,15 @@ const EditProfile = ({ navigation }) => {
         <View style={styles.inputParent}>
           <View style={styles.inputContainer}>
             <InputField
-              placeholder="Smith"
+              placeholder="First Name"
+              label="First name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <InputField
+              placeholder="Last Name"
               label="Last name"
               value={lastName}
               onChangeText={setLastName}
@@ -163,27 +167,19 @@ const EditProfile = ({ navigation }) => {
             />
           </View>
           <View style={styles.inputContainer}>
-                    <InputField
-                        placeholder="Select your Country"
-                        showDropdownIcon
-                        onDropDownPress={toggleCountryModal}
-                        label={'Country'}
-                    />
-                </View>
-                <CountryComponent
-                    isVisible={isCountryModalVisible}
-                    toggleModal={toggleCountryModal}
-                    onSelectCountry={handleSelectCountry}
-                />
-          {/* <DropdownComponent
-            data={countryData}
-            selectedValue={selectedCountry}
-            isFocus={isCountryFocus}
-            setIsFocus={setIsCountryFocus}
-            handleChange={handleCountryChange}
-            placeholder="USA"
-            label="Country"
-          /> */}
+            <InputField
+              placeholder="Select your Country"
+              showDropdownIcon
+              onDropDownPress={toggleCountryModal}
+              label="Country"
+              value={selectedCountry}
+            />
+          </View>
+          <CountryComponent
+            isVisible={isCountryModalVisible}
+            toggleModal={toggleCountryModal}
+            onSelectCountry={handleSelectCountry}
+          />
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -231,6 +227,3 @@ const EditProfile = ({ navigation }) => {
 };
 
 export default EditProfile;
-
-
-
