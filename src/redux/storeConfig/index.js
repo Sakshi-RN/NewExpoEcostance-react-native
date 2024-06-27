@@ -25,14 +25,13 @@ const reducer = combineReducers({
 
 
 const store = configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    devTools: process.env.NODE_ENV !== 'production',
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  devTools: process.env.NODE_ENV !== "production",
+  enhancers: (getDefaultEnhancers) =>
+    getDefaultEnhancers({
+      autoBatch: false,
+    }),
+});
 
-    enhancers: (getDefaultEnhancers) =>
-      getDefaultEnhancers({
-        autoBatch: false,
-      })
-  })
-  
 export default store;

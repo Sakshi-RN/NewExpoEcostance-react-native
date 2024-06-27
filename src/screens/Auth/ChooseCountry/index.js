@@ -3,7 +3,7 @@ import { View, Text, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown } from 'react-native-element-dropdown';
 
-import MainButton from '../../../components/mainButton'; 
+import MainButton from '../../../components/MainButton'; 
 import ImageWrapper from '../../../components/image'; 
 import { DropdownArrowIcon } from '../../../assets'; 
 import { fetchCountryCodes, fetchGeolocationByIP, setSelectedCountry } from '../../../redux/features/countryCodeReducer';

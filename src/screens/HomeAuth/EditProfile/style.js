@@ -1,8 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet ,Platform ,Dimensions} from "react-native";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { Colors } from "../../../theme/colors";
 import { Fonts } from "../../../theme/fonts";
 
+const height = Dimensions.get('screen').height;
+const width = Dimensions.get('screen').width;
 
 export default StyleSheet.create({
     container: {
@@ -10,14 +12,17 @@ export default StyleSheet.create({
     },
     modalWrapper:
     {
-        padding: 20,
+        height: height * 0.35,
+        padding: 8,
         justifyContent: "space-around",
         alignItems: "center",
         flexDirection: 'row',
         backgroundColor: Colors.WHITE,
-        paddingVertical: responsiveHeight(5)
+        borderTopEndRadius : responsiveHeight(4),
+        borderTopLeftRadius : responsiveHeight(4),
+        alignItems: "center",
+        justifyContent: "center",
     },
-
     content: {
         marginHorizontal: responsiveWidth(5),
         paddingBottom: responsiveHeight(10),
@@ -65,6 +70,19 @@ export default StyleSheet.create({
     inputContainer: {
         marginTop: responsiveHeight(2.5),
     },
+    text: {
+        color: "white",
+        fontSize: 18,
+        lineHeight: 22.01,
+        textAlign: "center",
+        letterSpacing: -0.3,
+        fontFamily: Fonts.medium,
+      },
+      button: {
+        width: "100%",
+        backgroundColor: Colors.OFFBLACK,
+        padding: Platform.OS == "ios" ? 18 : 16,
+      },
     buttonContainer: {
         position: 'absolute',
         bottom: responsiveHeight(3),
@@ -78,6 +96,13 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'flex-end',
+    },
+    bottomSheet: {
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        margin: 0,
+        zIndex: 5,
     },
     containerModal: {
         flexDirection: 'row',

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import styles from './style';
 import images from '../../../theme/Images';
 

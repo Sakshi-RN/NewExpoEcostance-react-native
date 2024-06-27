@@ -15,7 +15,6 @@ export default StyleSheet.create({
     loginContainer:{
         flex:1,
         flexDirection:'column',
-        // paddingHorizontal: dynamicSize(12, true),
         paddingTop:Platform.OS =="ios" ? 30 :0
     },
     headerRowAdjust:{
