@@ -4,7 +4,7 @@ import imagePaths from '../../../utilities/imagePaths'
 import ImageWrapper from '../../../components/image'
 import styles from './style'
 import { CarouselStepOneIcon, CrossIcon } from '../../../assets'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 
 const YouNotSigned = (props) => {
   return (

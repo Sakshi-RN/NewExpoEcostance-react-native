@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import ImageWrapper from '../../../components/image'
 import imagePaths from '../../../utilities/imagePaths'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 import styles from './style'
 import { 
     HeartBlackIcon, 

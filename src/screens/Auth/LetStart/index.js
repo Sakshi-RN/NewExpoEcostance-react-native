@@ -4,7 +4,7 @@ import MainContainer from '../../../components/mainContainer'
 import imagePaths from '../../../utilities/imagePaths'
 import ImageWrapper from '../../../components/image'
 import styles from './style'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 import SecondaryButton from '../../../components/SecondaryButton'
 const LetStart = ({navigation}) => {
     const [value, setValue] = useState(null);

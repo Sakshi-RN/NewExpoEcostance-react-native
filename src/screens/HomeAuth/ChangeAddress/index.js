@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
+import MainButton from '../../../components/MainButton';
 import styles from './style';
 import { Change_Address } from '../../../redux/features/changeAddressReducer';
-import MainButton from '../../../components/mainButton';
 
 const ChangeAddress = () => {
     const dispatch = useDispatch();

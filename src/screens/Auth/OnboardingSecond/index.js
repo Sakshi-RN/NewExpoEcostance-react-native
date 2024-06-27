@@ -5,7 +5,7 @@ import ImageWrapper from '../../../components/image'
 import styles from './style'
 import {CarouselStepTwoIcon } from '../../../assets'
 import SecondaryButton from '../../../components/SecondaryButton'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 
 const OnboardingSecond = (props) => {
   return (

@@ -40,7 +40,7 @@ const MyProfile = (props) => {
 
   useEffect(() => {
     dispatch(fetchProfile());
-  }, [dispatch]);
+  }, [navigation]);
 
   const renderMenu = () => {
     return (

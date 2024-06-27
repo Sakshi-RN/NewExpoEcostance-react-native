@@ -10,7 +10,7 @@ import {
 import ImageWrapper from '../../../components/image'
 import imagePaths from '../../../utilities/imagePaths'
 import { InputBox } from '../../../components/inputBox'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 import Header from '../../../components/header'
 import CircularProgressChart from '../../../components/circulerProgressChart'
 import styles from './style'

@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import ImageWrapper from '../../../components/image'
 import imagePaths from '../../../utilities/imagePaths'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 import { Dropdown } from 'react-native-element-dropdown';
 import { DropdownArrowIcon } from '../../../assets'
 import SegmentedControlTab from 'react-native-segmented-control-tab';
