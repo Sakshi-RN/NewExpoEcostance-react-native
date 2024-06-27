@@ -11,7 +11,6 @@ import CountryComponent from '../../../components/CountryComponent';
 import StateComponent from '../../../components/StateComponent';
 import CityComponent from '../../../components/CityComponent';
 
-
 const ChangeAddress = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -27,11 +26,15 @@ const ChangeAddress = () => {
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
-    const [selectedPhoneCode, setSelectedPhoneCode] = useState('');
     const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
     const [isStateModalVisible, setIsStateModalVisible] = useState(false);
     const [isCityModalVisible, setIsCityModalVisible] = useState(false);
-    const [isPhoneModalVisible, setIsPhoneModalVisible] = useState(false);
+
+    const [countryError, setCountryError] = useState('');
+    const [stateError, setStateError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [addressLine1Error, setAddressLine1Error] = useState('');
+    const [pincodeError, setPincodeError] = useState('');
 
     const toggleCountryModal = () => {
         setIsCountryModalVisible(!isCountryModalVisible);
@@ -45,25 +48,26 @@ const ChangeAddress = () => {
         setIsCityModalVisible(!isCityModalVisible);
     };
 
-
     const handleSelectCountry = (countryCode) => {
         setSelectedCountry(countryCode);
         setSelectedState('');
         setSelectedCity('');
         setIsCountryModalVisible(false);
+        setCountryError(''); 
     };
 
     const handleSelectState = (stateCode) => {
         setSelectedState(stateCode);
         setSelectedCity('');
         setIsStateModalVisible(false);
+        setStateError(''); 
     };
 
     const handleSelectCity = (cityName) => {
         setSelectedCity(cityName);
         setIsCityModalVisible(false);
+        setCityError(''); 
     };
-
 
     useEffect(() => {
         if (address) {
@@ -80,13 +84,42 @@ const ChangeAddress = () => {
         navigation.goBack();
     };
 
+    const validateFields = () => {
+        let valid = true;
+        if (!selectedCountry) {
+            setCountryError("Please select a country");
+            valid = false;
+        }
+        if (!selectedState) {
+            setStateError("Please select a state");
+            valid = false;
+        }
+        if (!selectedCity) {
+            setCityError("Please select a city");
+            valid = false;
+        }
+        if (!addressLine1.trim()) {
+            setAddressLine1Error("Address Line 1 is required");
+            valid = false;
+        }
+        if (!pincode.trim()) {
+            setPincodeError("Pincode is required");
+            valid = false;
+        }
+        return valid;
+    };
+
     const handleSave = () => {
+        if (!validateFields()) {
+            return;
+        }
+
         const addressData = {
             addressLine1,
             addressLine2,
-            city,
-            state,
-            country,
+            city: selectedCity,
+            state: selectedState,
+            country: selectedCountry,
             pincode,
         };
 
@@ -95,7 +128,6 @@ const ChangeAddress = () => {
         dispatch(Change_Address(addressData));
         navigation.goBack();
     };
-
 
     const renderCountryList = () => {
         return (
@@ -106,7 +138,9 @@ const ChangeAddress = () => {
                         showDropdownIcon
                         onDropDownPress={toggleCountryModal}
                         label={'Country'}
+                        value={selectedCountry}
                     />
+                    {countryError ? <Text style={styles.errorText}>{countryError}</Text> : null}
                 </View>
                 <View style={styles.inputContainer}>
                     <InputField
@@ -114,7 +148,9 @@ const ChangeAddress = () => {
                         showDropdownIcon
                         onDropDownPress={toggleStateModal}
                         label={'State'}
+                        value={selectedState}
                     />
+                    {stateError ? <Text style={styles.errorText}>{stateError}</Text> : null}
                 </View>
                 <View style={styles.inputContainer}>
                     <InputField
@@ -122,7 +158,9 @@ const ChangeAddress = () => {
                         showDropdownIcon
                         onDropDownPress={toggleCityModal}
                         label={'City'}
+                        value={selectedCity}
                     />
+                    {cityError ? <Text style={styles.errorText}>{cityError}</Text> : null}
                 </View>
                 <CountryComponent
                     isVisible={isCountryModalVisible}
@@ -142,7 +180,6 @@ const ChangeAddress = () => {
                     selectedCountry={selectedCountry}
                     selectedState={selectedState}
                 />
-
             </View>
         )
     }
@@ -155,39 +192,39 @@ const ChangeAddress = () => {
                 {renderCountryList()}
                 <View style={styles.inputContainer}>
                     <InputField
-                        placeholder="Address"
+                        placeholder="Address Line 1"
                         value={addressLine1}
-                        onChangeText={setAddressLine1}
+                        onChangeText={(text) => {
+                            setAddressLine1(text);
+                            setAddressLine1Error(''); 
+                        }}
                     />
+                    {addressLine1Error ? <Text style={styles.errorText}>{addressLine1Error}</Text> : null}
                 </View>
                 <View style={styles.inputContainer}>
                     <InputField
-                        placeholder="Address"
+                        placeholder="Address Line 2"
                         value={addressLine2}
                         onChangeText={setAddressLine2}
                     />
                 </View>
-
                 <View style={styles.inputContainer}>
                     <InputField
                         placeholder="ZIP Code / Pin code"
                         value={pincode}
-                        onChangeText={setPincode}
+                        onChangeText={(text) => {
+                            setPincode(text);
+                            setPincodeError(''); 
+                        }}
                     />
+                    {pincodeError ? <Text style={styles.errorText}>{pincodeError}</Text> : null}
                 </View>
-
             </ScrollView>
             <View style={styles.buttonContainer}>
                 <MainButton title="Save" onPress={handleSave} disabled={loading} />
             </View>
-
         </View>
     );
 };
 
 export default ChangeAddress;
-
-
-
-
-

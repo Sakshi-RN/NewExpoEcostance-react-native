@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native";
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { Colors } from "../../../theme/colors";
 
 export default StyleSheet.create({
     container: {
@@ -18,5 +19,8 @@ export default StyleSheet.create({
         width: '100%',
         paddingHorizontal: responsiveWidth(5),
     },
+    errorText:{
+        color:Colors.RED
+    }
 
 });
