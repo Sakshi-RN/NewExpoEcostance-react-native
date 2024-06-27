@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Text, Image } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Colors } from '../../theme/colors';
@@ -41,7 +41,7 @@ const InputField = (props) => {
   const toggleEditable = () => {
     setIsEditable(!isEditable);
   };
-
+  
   return (
     <View>
       <Text style={styles.label}>{label}</Text>

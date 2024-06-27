@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
 import InputField from "../../../components/CommonInput/InputField";
 import styles from "./style";
@@ -36,7 +36,7 @@ const EditProfile = ({ navigation }) => {
   const [lastNameError, setLastNameError] = useState("");
 
   const handleSelectCountry = (country) => {
-    setSelectedCountry(country.name);
+    setSelectedCountry(country);
     setIsCountryModalVisible(false);
   };
 
@@ -45,7 +45,6 @@ const EditProfile = ({ navigation }) => {
       setSelectedCountry(countryName);
     }
   }, [countryName]);
-
 
   const currencyData = countryCodes.map((code) => ({
     label: code.currencyName,
@@ -60,7 +59,7 @@ const EditProfile = ({ navigation }) => {
       setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
-      setSelectedCountry(profile.data.countryName || "");
+      setSelectedCountry(profile.data.phone.countryCode || "");
     }
   }, [profile]);
 
@@ -77,7 +76,6 @@ const EditProfile = ({ navigation }) => {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-
 
   const toggleCountryModal = () => {
     setIsCountryModalVisible(!isCountryModalVisible);
@@ -120,7 +118,6 @@ const EditProfile = ({ navigation }) => {
       const profileData = {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        email: email.trim(),
         checkoutDefaultCurrency: selectedCurrency,
         countryCode: selectedCountry,
         dob: formatDate(selectedDate),
@@ -227,7 +224,7 @@ const EditProfile = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-      <MainButton title="Save" onPress={handleSave} disabled={loading} />
+        <MainButton title="Save" onPress={handleSave} disabled={loading} />
       </View>
     </View>
   );

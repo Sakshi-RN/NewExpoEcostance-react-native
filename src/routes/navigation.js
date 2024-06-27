@@ -6,8 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthHome from "./authHome";
 
 export default function Navigation() {
-  const [regUser, setRegUser] = useState(0);
+  const [regUser, setRegUser] = useState(true);
   const login_type = AsyncStorage.getItem("loginUser").then((value) => {
+    console.log("login user", value);
     setRegUser(JSON.parse(value));
   });
   return (

@@ -191,12 +191,17 @@ export const authSlice = createSlice({
         }),
 
         builder.addCase(loginThread.fulfilled, (state, { payload }) => {
-            AsyncStorage.setItem('token', JSON.stringify(payload?.token))
-            state.loginData = payload
-            state.loginLoading = false,
-            state.loginStatus = true,
-            state.loginError = false
+            if (payload?.token !== undefined) {
+                AsyncStorage.setItem('token', JSON.stringify(payload?.token));
+            } else {
+                console.error('Token is undefined');
+            }
+            state.loginData = payload;
+            state.loginLoading = false;
+            state.loginStatus = true;
+            state.loginError = false;
         }),
+        
 
         builder.addCase(loginThread.pending, (state) => {
             state.loginLoading = true,
