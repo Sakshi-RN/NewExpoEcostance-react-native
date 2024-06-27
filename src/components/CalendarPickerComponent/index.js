@@ -1,11 +1,14 @@
-import React,{useState} from 'react';
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
-import styles from '../../screens/HomeAuth/EditProfile/style';
+import React, { useState } from "react";
+import { Modal, View, TouchableWithoutFeedback } from "react-native";
+import CalendarPicker from "react-native-calendar-picker";
+import styles from "../../screens/HomeAuth/EditProfile/style";
 import MainButton from "../MainButton";
 
-
-const CalendarPickerComponent = ({ isCalendarModalVisible, closeCalendarModal, onDateChange }) => {
+const CalendarPickerComponent = ({
+  isCalendarModalVisible,
+  closeCalendarModal,
+  onDateChange,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -26,9 +29,9 @@ const CalendarPickerComponent = ({ isCalendarModalVisible, closeCalendarModal, o
             selectedDayTextColor="#FFFFFF"
             onDateChange={onDateChange}
           />
-          <MainButton
-            title='Close'
-            onPress={closeCalendarModal} />
+          <View style={{ padding: 20 }}>
+            <MainButton title="Close" onPress={closeCalendarModal} />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </Modal>
