@@ -6,7 +6,7 @@ import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
 import styles from './style';
 import { Change_Address } from '../../../redux/features/changeAddressReducer';
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import CountryComponent from '../../../components/CountryComponent';
 import StateComponent from '../../../components/StateComponent';
 import CityComponent from '../../../components/CityComponent';

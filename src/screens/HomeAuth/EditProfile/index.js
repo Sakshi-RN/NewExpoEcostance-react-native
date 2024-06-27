@@ -1,16 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { View, ScrollView } from 'react-native';
-import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
-import InputField from '../../../components/CommonInput/InputField';
-import MainButton from '../../../components/mainButton';
-import styles from './style';
-import { updateProfile } from '../../../redux/features/profileReducer/index';
-import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
-import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
-import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
-import DropdownComponent from '../../../components/DropdownComponent';
-import CountryComponent from '../../../components/CountryComponent';
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, ScrollView, TouchableOpacity, Text } from "react-native";
@@ -25,7 +13,6 @@ import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
 import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
 import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
 import DropdownComponent from "../../../components/DropdownComponent";
-import CountryCodeList from "../../../components/CountryCodeList";
 import { Colors } from "../../../theme/colors";
 
 const EditProfile = ({ navigation }) => {
