@@ -4,7 +4,7 @@ import CommonCart from '../../../components/CommonCart'; // Adjust path as per y
 import styles from './style'; // Import your style file
 import Entypo from 'react-native-vector-icons/Entypo'; // Assuming you have Entypo icons installed
 import { Colors } from '../../../theme/colors'; // Import your colors from theme
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import images from '../../../theme/Images'; // Import your images from theme
 import { responsiveHeight } from 'react-native-responsive-dimensions';
 

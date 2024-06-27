@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { View, ScrollView } from 'react-native';
-import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
-import InputField from '../../../components/CommonInput/InputField';
-import MainButton from '../../../components/MainButton';
-import styles from './style';
-import { updateProfile } from '../../../redux/features/profileReducer/index';
-import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
-import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
-import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
-import DropdownComponent from '../../../components/DropdownComponent';
-import CountryCodeList from '../../../components/CountryCodeList';
-
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
+import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
+import InputField from "../../../components/CommonInput/InputField";
+import styles from "./style";
+import {
+  fetchProfile,
+  updateProfile,
+} from "../../../redux/features/profileReducer/index";
+import { fetchCountryCodes } from "../../../redux/features/countryCodeReducer";
+import ImagePickerComponent from "../../../components/ImagePickerComponent/index";
+import CalendarPickerComponent from "../../../components/CalendarPickerComponent";
+import DropdownComponent from "../../../components/DropdownComponent";
+import CountryCodeList from "../../../components/CountryCodeList";
+import { Colors } from "../../../theme/colors";
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -47,13 +49,14 @@ const EditProfile = ({ navigation }) => {
   }));
 
   useEffect(() => {
-    if (profile) {
+    if (profile && profile.data) {
       setFirstName(profile.data.firstName || "");
       setLastName(profile.data.lastName || "");
       setEmail(profile.data.email || "");
       setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
+      console.log(profile);
     }
   }, [profile]);
 
@@ -117,6 +120,7 @@ const EditProfile = ({ navigation }) => {
 
     dispatch(updateProfile(formData));
     navigation.goBack();
+    dispatch(fetchProfile());
   };
 
   return (
@@ -154,16 +158,7 @@ const EditProfile = ({ navigation }) => {
               value={email}
             />
           </View>
-          {/* <DropdownComponent
-            data={countryData}
-            selectedValue={selectedCountry}
-            isFocus={isCountryFocus}
-            setIsFocus={setIsCountryFocus}
-            handleChange={handleCountryChange}
-            placeholder="USA"
-            label="Country"
-          /> */}
-          <CountryCodeList/>
+          <CountryCodeList />
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -190,7 +185,21 @@ const EditProfile = ({ navigation }) => {
         />
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <MainButton title="Save" onPress={handleSave} disabled={loading} />
+        <TouchableOpacity
+          activeOpacity={0.3}
+          style={[
+            styles.button,
+            { backgroundColor: loading ? Colors.SECONDARY : Colors.OFFBLACK },
+          ]}
+          onPress={handleSave}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator size={"small"} color={Colors.WHITE} />
+          ) : (
+            <Text style={[styles.text]}>Save</Text>
+          )}
+        </TouchableOpacity>
       </View>
     </View>
   );

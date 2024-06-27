@@ -5,7 +5,7 @@ import { View, Text, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import { InputBox } from '../../../components/inputBox';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {user} from '../../../redux/features/userReducer'

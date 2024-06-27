@@ -1,4 +1,4 @@
-import { Dimensions, ToastAndroid, Alert } from "react-native";
+import { Dimensions, ToastAndroid, Alert,Platform } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export const { width, height } = Dimensions.get("window");

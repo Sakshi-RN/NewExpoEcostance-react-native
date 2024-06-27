@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import ImageWrapper from '../../../components/image'
 import imagePaths from '../../../utilities/imagePaths'
-import MainButton from '../../../components/mainButton'
+import MainButton from '../../../components/MainButton'
 import Header from '../../../components/header'
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { auth } from '../../../redux/features/authReducer'

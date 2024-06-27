@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import images from '../../../theme/Images';
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import SecondaryButton from '../../../components/SecondaryButton';
 import styles from './style'
 

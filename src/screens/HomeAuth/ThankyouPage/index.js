@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, ImageBackground, StyleSheet } from 'react-native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import styles from './style';
-import MainButton from '../../../components/mainButton';
+import MainButton from '../../../components/MainButton';
 import images from '../../../theme/Images';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
