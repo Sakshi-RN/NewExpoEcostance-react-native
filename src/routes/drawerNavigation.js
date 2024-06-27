@@ -67,9 +67,7 @@ export const DrawerNavigation = (props) => {
             await AsyncStorage.multiRemove(asyncStorageKeys);
           }
         }
-        // RNRestart.restart();
-        // props.navigation.navigate("Splash")
-        props.navigation.navigate("Welcome")
+        navigation.navigate("Welcome")
       }
     }
     confirmAlert(alertData)
