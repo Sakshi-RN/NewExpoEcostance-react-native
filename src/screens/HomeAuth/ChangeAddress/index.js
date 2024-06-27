@@ -123,8 +123,6 @@ const ChangeAddress = () => {
             pincode,
         };
 
-        console.log("@@resonsedta@@@", addressData);
-
         dispatch(Change_Address(addressData));
         navigation.goBack();
     };
