@@ -4,6 +4,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { Colors } from '../../theme/colors';
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
 import images from '../../theme/Images'
+import { Fonts } from '../../theme/fonts';
 
 const InputField = (props) => {
   const {
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: responsiveFontSize(2),
     color: Colors.OFFBLACK,
+    fontFamily:Fonts.regular
   },
   inputContainer: {
     flexDirection: 'row',

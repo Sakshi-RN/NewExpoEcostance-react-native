@@ -10,6 +10,7 @@ import { fetchCountryCodes } from '../../../redux/features/countryCodeReducer';
 import ImagePickerComponent from '../../../components/ImagePickerComponent/index';
 import CalendarPickerComponent from '../../../components/CalendarPickerComponent';
 import DropdownComponent from '../../../components/DropdownComponent';
+import CountryComponent from '../../../components/CountryComponent';
 
 const EditProfile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -24,10 +25,24 @@ const EditProfile = ({ navigation }) => {
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState("USA");
+  // const [selectedCountry, setSelectedCountry] = useState("USA");
   const [selectedCurrency, setSelectedCurrency] = useState(null);
-
   const { countryCodes, countryName } = useSelector((state) => state.country);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
+
+
+  const toggleCountryModal = () => {
+      setIsCountryModalVisible(!isCountryModalVisible);
+  };
+
+
+  const handleSelectCountry = (countryCode) => {
+      setSelectedCountry(countryCode);
+      setIsCountryModalVisible(false);
+  };
+
+
 
   useEffect(() => {
     if (countryName) {
@@ -142,7 +157,20 @@ const EditProfile = ({ navigation }) => {
               onChangeText={setEmail}
             />
           </View>
-          <DropdownComponent
+          <View style={styles.inputContainer}>
+                    <InputField
+                        placeholder="Select your Country"
+                        showDropdownIcon
+                        onDropDownPress={toggleCountryModal}
+                        label={'Country'}
+                    />
+                </View>
+                <CountryComponent
+                    isVisible={isCountryModalVisible}
+                    toggleModal={toggleCountryModal}
+                    onSelectCountry={handleSelectCountry}
+                />
+          {/* <DropdownComponent
             data={countryData}
             selectedValue={selectedCountry}
             isFocus={isCountryFocus}
@@ -150,7 +178,7 @@ const EditProfile = ({ navigation }) => {
             handleChange={handleCountryChange}
             placeholder="USA"
             label="Country"
-          />
+          /> */}
           <DropdownComponent
             data={currencyData}
             selectedValue={selectedCurrency}
@@ -161,8 +189,6 @@ const EditProfile = ({ navigation }) => {
             label="Default Currency"
           />
           <View style={styles.inputContainer}>
-
-
             <InputField
               label="Birthday"
               placeholder="1992-09-23"
@@ -186,3 +212,65 @@ const EditProfile = ({ navigation }) => {
 };
 
 export default EditProfile;
+
+
+
+// import React, { Component } from 'react';
+// import { View, Text, TouchableOpacity } from 'react-native';
+// import CountryComponent from '../../../components/CountryComponent';
+
+
+// class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       selectedCountry: '',
+//       selectedState: '',
+//       selectedCity: '',
+//       selectedPhoneCode: '',
+//       isCountryModalVisible: false,
+//       isStateModalVisible: false,
+//       isCityModalVisible: false,
+//       isPhoneModalVisible: false,
+//     };
+//   }
+
+//   toggleCountryModal = () => {
+//     this.setState({ isCountryModalVisible: !this.state.isCountryModalVisible });
+//   };
+
+
+
+//   handleSelectState = (stateCode) => {
+//     this.setState({ selectedState: stateCode, selectedCity: '', isStateModalVisible: false });
+//   };
+
+//   handleSelectCity = (cityName) => {
+//     this.setState({ selectedCity: cityName, isCityModalVisible: false });
+//   };
+
+//   handleSelectPhoneCode = (phoneCode) => {
+//     this.setState({ selectedPhoneCode: phoneCode, isPhoneModalVisible: false });
+//   };
+
+//   render() {
+//     const { selectedCountry } = this.state;
+
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <TouchableOpacity onPress={this.toggleCountryModal}>
+//           <Text>Select a country</Text>
+//         </TouchableOpacity>
+
+
+//         <CountryComponent
+//           isVisible={this.state.isCountryModalVisible}
+//           toggleModal={this.toggleCountryModal}
+//           onSelectCountry={this.handleSelectCountry}
+//         />
+//       </View>
+//     );
+//   }
+// }
+
+// export default App;
