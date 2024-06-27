@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecostance-mobile-app-react-native",
-    "slug": "ecostance-mobile-app-react-native",
+    "name": "Ecostance",
+    "slug": "Ecostance",
     "version": "1.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
