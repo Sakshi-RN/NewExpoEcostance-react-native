@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {useDispatch, useSelector } from 'react-redux'
 import { View, Text, Dimensions } from 'react-native';
-// import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
+import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 import { useNavigation } from '@react-navigation/native';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 import InputField from '../../../components/CommonInput/InputField';
@@ -161,14 +161,14 @@ const ChangePassword = () => {
                                         secureTextEntry={lockSecondToggle? true : false}
                                     />
                                     <View style={styles.passwordStrengthRow}>
-                                        {/* <BoxPasswordStrengthDisplay
+                                        <BoxPasswordStrengthDisplay
                                             password={values.newPassword}
                                             meterType="box"
                                             scoreLimit={100}
                                             levels={levels}
                                             width={width - 50}
                                             boxSpacing={2}
-                                        /> */}
+                                        />
                                     </View>
                                     {errors.newPassword && touched.newPassword ? (
                                         <Text style={styles.error}>{errors.newPassword}</Text>
@@ -208,7 +208,6 @@ const ChangePassword = () => {
                                     title="Change Password"
                                     loader={user.changePasswordLoading}
                                     onPress={handleSubmit}
-                                    // onPress={() => navigation.navigate("Setting")}
                                 />
                             </View>
                         </>
