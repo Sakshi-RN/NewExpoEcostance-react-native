@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: responsiveHeight(5),
+        marginTop: responsiveHeight(3),
         marginHorizontal: responsiveWidth(3),
         height: responsiveHeight(7),
     },
