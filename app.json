@@ -3,7 +3,10 @@
     "name": "Ecostance",
     "slug": "Ecostance",
     "version": "1.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -36,7 +39,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.starfishgp.Ecostance"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7d8956d-f909-4c64-881f-d1a0e48ff958"
       }
-    }
+    },
+    "owner": "starfishgp"
   }
 }
