@@ -51,6 +51,18 @@ const EditProfile = ({ navigation }) => {
     value: code.currency,
   }));
 
+  // useEffect(() => {
+  //   if (profile && profile.data) {
+  //     setFirstName(profile.data.firstName || "");
+  //     setLastName(profile.data.lastName || "");
+  //     setEmail(profile.data.email || "");
+  //     setSelectedDate(new Date(profile.data.dob) || "");
+  //     setSelectedImage(profile.data.profileImage || "");
+  //     setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
+  //     setSelectedCountry(profile.data.phone.countryCode || "");
+  //   }
+  // }, [profile]);
+
   useEffect(() => {
     if (profile && profile.data) {
       setFirstName(profile.data.firstName || "");
@@ -59,9 +71,10 @@ const EditProfile = ({ navigation }) => {
       setSelectedDate(new Date(profile.data.dob) || "");
       setSelectedImage(profile.data.profileImage || "");
       setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
-      setSelectedCountry(profile.data.phone.countryCode || "");
+      setSelectedCountry(profile.data.phone ? profile.data.phone.countryCode : "");
     }
   }, [profile]);
+  
 
   useEffect(() => {
     dispatch(fetchCountryCodes());

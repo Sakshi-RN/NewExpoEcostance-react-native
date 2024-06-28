@@ -39,16 +39,16 @@ const ChangeAddress = () => {
         setIsCityModalVisible(!isCityModalVisible);
     };
 
-    const handleSelectCountry = (countryCode) => {
-        dispatch(Set_Address_Field({ field: 'country', value: countryCode }));
+    const handleSelectCountry = (countryName) => {
+        dispatch(Set_Address_Field({ field: 'country', value: countryName }));
         dispatch(Set_Address_Field({ field: 'state', value: '' }));
         dispatch(Set_Address_Field({ field: 'city', value: '' }));
         setIsCountryModalVisible(false);
         setCountryError('');
     };
 
-    const handleSelectState = (stateCode) => {
-        dispatch(Set_Address_Field({ field: 'state', value: stateCode }));
+    const handleSelectState = (stateName) => {
+        dispatch(Set_Address_Field({ field: 'state', value: stateName }));
         dispatch(Set_Address_Field({ field: 'city', value: '' }));
         setIsStateModalVisible(false);
         setStateError('');
@@ -159,37 +159,34 @@ const ChangeAddress = () => {
 
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 {renderCountryList()}
-                <View style={styles.inputContainer}>
-                    <InputField
-                        placeholder="Address Line 1"
-                        value={address.addressLine1}
-                        onChangeText={(text) => {
-                            dispatch(Set_Address_Field({ field: 'addressLine1', value: text }));
-                            setAddressLine1Error('');
-                        }}
-                    />
-                    {addressLine1Error ? <Text style={styles.errorText}>{addressLine1Error}</Text> : null}
-                </View>
-                <View style={styles.inputContainer}>
-                    <InputField
-                        placeholder="Address Line 2"
-                        value={address.addressLine2}
-                        onChangeText={(text) => {
-                            dispatch(Set_Address_Field({ field: 'addressLine2', value: text }));
-                        }}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <InputField
-                        placeholder="ZIP Code / Pin code"
-                        value={address.pincode}
-                        onChangeText={(text) => {
-                            dispatch(Set_Address_Field({ field: 'pincode', value: text }));
-                            setPincodeError('');
-                        }}
-                    />
-                    {pincodeError ? <Text style={styles.errorText}>{pincodeError}</Text> : null}
-                </View>
+
+                <InputField
+                    placeholder="Address Line 1"
+                    value={address.addressLine1}
+                    onChangeText={(text) => {
+                        dispatch(Set_Address_Field({ field: 'addressLine1', value: text }));
+                        setAddressLine1Error('');
+                    }}
+                />
+                {addressLine1Error ? <Text style={styles.errorText}>{addressLine1Error}</Text> : null}
+
+                <InputField
+                    placeholder="Address Line 2"
+                    value={address.addressLine2}
+                    onChangeText={(text) => {
+                        dispatch(Set_Address_Field({ field: 'addressLine2', value: text }));
+                    }}
+                />
+
+                <InputField
+                    placeholder="ZIP Code / Pin code"
+                    value={address.pincode}
+                    onChangeText={(text) => {
+                        dispatch(Set_Address_Field({ field: 'pincode', value: text }));
+                        setPincodeError('');
+                    }}
+                />
+                {pincodeError ? <Text style={styles.errorText}>{pincodeError}</Text> : null}
             </ScrollView>
             <View style={styles.buttonContainer}>
                 <MainButton title="Save" onPress={handleSave} disabled={loading} />
