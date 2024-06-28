@@ -4,7 +4,7 @@ import { State } from 'country-state-city';
 
 const StateComponent = ({ isVisible, toggleModal, onSelectState, selectedCountry }) => {
   const states = selectedCountry ? State.getStatesOfCountry(selectedCountry) : [];
-
+  console.log(states.length,selectedCountry)
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
       <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
@@ -14,7 +14,7 @@ const StateComponent = ({ isVisible, toggleModal, onSelectState, selectedCountry
             keyExtractor={(item) => item.isoCode}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => {
-                onSelectState && onSelectState(item.isoCode);
+                onSelectState && onSelectState({isoCode : item.isoCode, name: item.name});
                 toggleModal();
               }}>
                 <Text style={{ fontSize: 18, padding: 10,color:'black' }}>{item.name}</Text>

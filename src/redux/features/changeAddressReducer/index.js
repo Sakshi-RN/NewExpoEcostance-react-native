@@ -32,12 +32,12 @@ export const Change_Address = createAsyncThunk(
 
 const initialState = {
   data: {
-    addressLine1: '',
-    addressLine2: '',
-    city: '',
-    state: '',
-    country: '',
-    pincode: '',
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
   },
   fetchLoading: false,
   fetchError: null,
@@ -62,7 +62,7 @@ const changeAddressSlice = createSlice({
       })
       .addCase(Change_Address.fulfilled, (state, action) => {
         state.updateLoading = false;
-        state.data = action.payload; 
+        state.data = action.payload;
       })
       .addCase(Change_Address.rejected, (state, action) => {
         state.updateLoading = false;

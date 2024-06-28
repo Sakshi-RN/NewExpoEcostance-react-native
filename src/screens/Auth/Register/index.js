@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   KeyboardAvoidingView,
@@ -8,21 +8,21 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
-} from 'react-native';
-import imagePaths from '../../../utilities/imagePaths';
-import MainButton from '../../../components/MainButton';
-import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
-import styles from './style';
-import { showErrorMessage } from '../../../utilities/helpers';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { auth } from '../../../redux/features/authReducer';
-import { Colors } from '../../../theme/colors';
-import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
-import { useNavigation } from '@react-navigation/native';
-import CustomToggle from '../../../components/CustomToggle';
-import InputField from '../../../components/CommonInput/InputField';
+} from "react-native";
+import imagePaths from "../../../utilities/imagePaths";
+import MainButton from "../../../components/MainButton";
+import { BoxPasswordStrengthDisplay } from "react-native-password-strength-meter";
+import styles from "./style";
+import { showErrorMessage } from "../../../utilities/helpers";
+import Entypo from "react-native-vector-icons/Entypo";
+import { auth } from "../../../redux/features/authReducer";
+import { Colors } from "../../../theme/colors";
+import CommonHeader from "../../../components/HomeHeaders/CommonHeader";
+import { useNavigation } from "@react-navigation/native";
+import CustomToggle from "../../../components/CustomToggle";
+import InputField from "../../../components/CommonInput/InputField";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const Register = (props) => {
   const { registerLoading } = useSelector((state) => state.auth);
@@ -30,30 +30,30 @@ const Register = (props) => {
   const navigation = useNavigation();
   const [lockToggle, setLockToggle] = useState(true);
   const [values, setValues] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     agreeToTerms: false,
     agreeToNews: false,
   });
   const [errors, setErrors] = useState({});
-const levels =  [
+  const levels = [
     {
-    label: 'Poor',
-    labelColor: '#ff6900',
-    activeBarColor: '#ff6900',
+      label: "Poor",
+      labelColor: "#ff6900",
+      activeBarColor: "#ff6900",
     },
     {
-        label: 'Good',
-        labelColor: '#f3d331',
-        activeBarColor: '#f3d331',
+      label: "Good",
+      labelColor: "#f3d331",
+      activeBarColor: "#f3d331",
     },
- 
+
     {
-        label: 'strong',
-        labelColor: 'green',
-        activeBarColor: 'green',
-    }
-]
+      label: "strong",
+      labelColor: "green",
+      activeBarColor: "green",
+    },
+  ];
 
   const handleBackPress = () => {
     navigation.goBack();
@@ -69,22 +69,35 @@ const levels =  [
   const validateForm = () => {
     const newErrors = {};
     const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const passwordRegExp =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/;
+
     if (!values.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!emailRegExp.test(values.email)) {
-      newErrors.email = 'Please provide a valid email address';
+      newErrors.email = "Please provide a valid email address";
     }
+
     if (!values.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (values.password.length < 8) {
-      newErrors.password = 'Password is too short - should be 8 chars minimum';
-    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/.test(values.password)) {
-      newErrors.password = 'Must contain 8 characters, one uppercase, one lowercase, one number, and one special character';
+      newErrors.password = "Password is too short - should be 8 chars minimum";
+    } else if (!passwordRegExp.test(values.password)) {
+      newErrors.password =
+        "Must contain 8 characters, one uppercase, one lowercase, one number, and one special character";
     }
+
     if (!values.agreeToTerms) {
-      newErrors.agreeToTerms = 'You must accept the terms and conditions';
+      newErrors.agreeToTerms = "You must accept the terms and conditions";
     }
+
     setErrors(newErrors);
+
+    // Debugging output
+    console.log("Validation Errors:", newErrors);
+    console.log("Password being tested:", values.password);
+    console.log("Password Regex Match:", passwordRegExp.test(values.password));
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -92,10 +105,10 @@ const levels =  [
     if (validateForm()) {
       let data = {
         email: values.email.trim(),
-        phone: '',
+        phone: "",
         password: values.password.trim(),
         confirmPassword: values.password.trim(),
-        userType: 'Individual',
+        userType: "Individual",
         termsAndConditions: values.agreeToTerms,
         newsLetter: values.agreeToNews,
         checkout: false,
@@ -104,7 +117,7 @@ const levels =  [
       dispatch(auth.registerThread(data))
         .then((responseJson) => {
           if (responseJson?.payload?.success === true) {
-            props.navigation.navigate('FillOTP', { emailParam: values.email });
+            navigation.navigate("FillOTP", { emailParam: values.email });
           } else if (responseJson?.payload?.success === false) {
             showErrorMessage(responseJson?.payload?.message);
           }
@@ -117,21 +130,31 @@ const levels =  [
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <ImageBackground source={imagePaths.loginTopVector} style={styles.backgroundStyle}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ImageBackground
+        source={imagePaths.loginTopVector}
+        style={styles.backgroundStyle}
+      >
         <CommonHeader onBackPress={handleBackPress} showCancelBtn={true} />
       </ImageBackground>
       <ScrollView style={styles.scrolViewWrapper}>
         <Text style={styles.loginText}>Registration</Text>
-        <Text style={styles.loginDescText}>Create an account and start saving nature.</Text>
+        <Text style={styles.loginDescText}>
+          Create an account and start saving nature.
+        </Text>
         <View style={styles.inputWrapper}>
           <InputField
             label="Email"
             placeholder="Email"
             value={values.email}
-            onChangeText={(text) => handleChange('email', text)}
+            onChangeText={(text) => handleChange("email", text)}
           />
-          {errors.email ? <Text style={styles.error}>{errors.email}</Text> : null}
+          {errors.email ? (
+            <Text style={styles.error}>{errors.email}</Text>
+          ) : null}
         </View>
         <View style={styles.inputWrapper}>
           <InputField
@@ -139,16 +162,28 @@ const levels =  [
             placeholder="Password"
             secureTextEntry={lockToggle}
             value={values.password}
-            onChangeText={(text) => handleChange('password', text)}
+            onChangeText={(text) => handleChange("password", text)}
             rightIcon={
               lockToggle ? (
-                <Entypo name="eye" size={20} color={Colors.grey} onPress={() => setLockToggle(false)} />
+                <Entypo
+                  name="eye"
+                  size={20}
+                  color={Colors.grey}
+                  onPress={() => setLockToggle(false)}
+                />
               ) : (
-                <Entypo name="eye-with-line" size={20} color={Colors.grey} onPress={() => setLockToggle(true)} />
+                <Entypo
+                  name="eye-with-line"
+                  size={20}
+                  color={Colors.grey}
+                  onPress={() => setLockToggle(true)}
+                />
               )
             }
           />
-          {errors.password ? <Text style={styles.error}>{errors.password}</Text> : null}
+          {errors.password ? (
+            <Text style={styles.error}>{errors.password}</Text>
+          ) : null}
 
           <View style={styles.passwordStrengthRow}>
             <BoxPasswordStrengthDisplay
@@ -164,32 +199,51 @@ const levels =  [
 
         <View style={styles.termsRow}>
           <View style={styles.termsLeft}>
-            <CustomToggle value={values.agreeToTerms} onValueChange={() => handleChange('agreeToTerms', !values.agreeToTerms)} />
+            <CustomToggle
+              value={values.agreeToTerms}
+              onValueChange={() =>
+                handleChange("agreeToTerms", !values.agreeToTerms)
+              }
+            />
           </View>
           <View style={styles.termsRight}>
             <Text style={styles.termsText}>Terms and Conditions</Text>
-            <Text style={styles.termsDescText}>I agree with Terms & Conditions and Privacy Policy</Text>
+            <Text style={styles.termsDescText}>
+              I agree with Terms & Conditions and Privacy Policy
+            </Text>
           </View>
         </View>
         <View style={styles.termsRow}>
           <View style={styles.termsLeft}>
-            <CustomToggle value={values.agreeToNews} onValueChange={() => handleChange('agreeToNews', !values.agreeToNews)} />
+            <CustomToggle
+              value={values.agreeToNews}
+              onValueChange={() =>
+                handleChange("agreeToNews", !values.agreeToNews)
+              }
+            />
           </View>
           <View style={styles.termsRight}>
             <Text style={styles.termsText}>Daily news</Text>
-            <Text style={styles.termsDescText}>I want to receive any updates and newsletter on my email</Text>
+            <Text style={styles.termsDescText}>
+              I want to receive any updates and newsletter on my email
+            </Text>
           </View>
         </View>
-        {errors.agreeToTerms ? <Text style={[styles.error, { paddingHorizontal: 30 }]}>{errors.agreeToTerms}</Text> : null}
+        {errors.agreeToTerms ? (
+          <Text style={[styles.error, { paddingHorizontal: 30 }]}>
+            {errors.agreeToTerms}
+          </Text>
+        ) : null}
       </ScrollView>
       <View style={styles.loginButtonWrapper}>
-        <MainButton title="Registration" onPress={handleFormSubmission} loader={registerLoading} />
+        <MainButton
+          title="Registration"
+          onPress={handleFormSubmission}
+          loader={registerLoading}
+        />
       </View>
     </KeyboardAvoidingView>
   );
 };
 
 export default Register;
-
-
-

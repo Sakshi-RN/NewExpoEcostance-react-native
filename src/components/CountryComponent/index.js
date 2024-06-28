@@ -26,7 +26,7 @@ const CountryComponent = ({ isVisible, toggleModal, onSelectCountry }) => {
             data={countries}
             keyExtractor={(item) => item.isoCode}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => onSelectCountry(item.isoCode)}>
+              <TouchableOpacity onPress={() => onSelectCountry({isoCode : item.isoCode ,name: item.name})}>
                 <View
                   style={{
                     flexDirection: "row",
