@@ -2,34 +2,36 @@ import {Platform, StyleSheet} from "react-native";
 import { Colors } from "../../../theme/colors";
 import { Fonts } from "../../../theme/fonts";
 import { dynamicSize } from "../../../utilities/helpers";
+import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor:Colors.white,
     },
     topBanner:{
-        flexDirection:'column',
         backgroundColor:Colors.white,
-        height:89
+     flex:1
     },
     loginContainer:{
         flex:1,
         flexDirection:'column',
-        // paddingHorizontal: dynamicSize(12, true),
-        paddingTop:Platform.OS =="ios" ? 30 :0
-    },
-    headerRowAdjust:{
-        position:'absolute',
-        top:0,
-        left:0,
-        right:0
+        paddingTop:Platform.OS =="ios" ? responsiveHeight(2) :0
     },
     shoppingCartRow:{
         flexDirection:'row',
-        flexWrap:'wrap'
+        backgroundColor:'red'
+        
+    },
+    backgroundStyle:{
+        height: responsiveHeight(10),
+        paddingTop:responsiveHeight(2),
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     shoppingCartButton:{
-        marginRight:5
+      marginHorizontal:responsiveWidth(2),
+        marginTop:responsiveHeight(3)
     },
     bottomRowAdjust:{
         position:'absolute',
