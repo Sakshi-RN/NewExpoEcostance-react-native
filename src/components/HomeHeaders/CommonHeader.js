@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
-        left: responsiveWidth(1), // Adjust this value as needed
-        padding: responsiveWidth(1), // Adjust padding as needed
+        left: responsiveWidth(1), 
+        padding: responsiveWidth(1), 
     },
     centerContainer: {
-        width: responsiveWidth(60), // Adjusted width to give space for right text
+        width: responsiveWidth(60), 
         alignItems: 'center',
     },
     centerText: {
