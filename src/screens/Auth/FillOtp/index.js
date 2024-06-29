@@ -198,7 +198,6 @@ const FillOTP = ({ route, navigation }) => {
                     title="Verify"
                     onPress={handleSubmit}
                     loader={registerOtpVerifyLoading}
-                    // onPress={()=> navigation.navigate("LetsGo")}
                   />
                 </View>
 
