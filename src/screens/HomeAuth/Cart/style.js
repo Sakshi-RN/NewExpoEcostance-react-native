@@ -18,6 +18,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop:responsiveHeight(3)
     },
     couponContainer: {
         marginVertical: 10,

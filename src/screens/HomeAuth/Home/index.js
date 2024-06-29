@@ -2,25 +2,27 @@ import React, { useEffect, useState, useRef } from 'react';
 import {
     View,
     Text,
-    Platform,
     FlatList,
     TouchableOpacity,
     ActivityIndicator,
-    ImageBackground
-} from 'react-native';
+    ImageBackground} from 'react-native';
 import { connect } from 'react-redux';
 import ImageWrapper from '../../../components/image';
 import imagePaths from '../../../utilities/imagePaths';
 import HomeCard from '../../../components/homeCard';
-
+import Entypo from 'react-native-vector-icons/Entypo';
 import styles from './style';
 import { HeartIcon, ShoppingCartIcon, PlusWhiteIcon } from '../../../assets';
 import { Colors } from '../../../theme/colors';
 import { fetchProducts } from '../../../redux/features/getetProductReducer';
 import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
 
+
 const Home = ({ products, loading, error, fetchProducts, navigation, metadata }) => {
+
     const [showToggle, setShowToggle] = useState(false);
+    const [wishlistVisible, setWishlistVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const listRef = useRef(null);
 
@@ -31,7 +33,19 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
     const onRefresh = () => {
         fetchProducts({ page: 1 });
     };
+    const handleBackPress = () => {
 
+        navigation.goBack();
+    };
+
+    const openModal = () => {
+        setModalVisible(true);
+        Animated.timing(translateX, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
     const handleEndReached = () => {
         if (!loading && metadata.nextPage) {
             fetchProducts({ page: metadata.nextPage });
@@ -44,20 +58,29 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
                 source={imagePaths.loginTopVector}
                 style={styles.backgroundStyle}
             >
-                <CommonHeader />
-                <TouchableOpacity style={styles.shoppingCartButton}
-                    onPress={() => navigation.navigate("Cart")}
-                >
-                    <ShoppingCartIcon />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.shoppingCartButton}>
-                    <HeartIcon />
-                </TouchableOpacity>
+                <TouchableOpacity onPress={handleBackPress} style={styles.wishlistCartButton} >
+                    <Entypo name="chevron-left" size={25} color={Colors.BLACK} />
 
+                </TouchableOpacity>
+                <CommonHeader
+                />
+
+                <View style={styles.shoppingCartRow}>
+                    <TouchableOpacity style={styles.wishlistCartButton} 
+                      onPress={() => navigation.navigate("Wishlist")}>
+                        <HeartIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.CartButton]}
+                        onPress={() => navigation.navigate("Cart")}
+                    >
+                        <ShoppingCartIcon />
+                    </TouchableOpacity>
+                </View>
             </ImageBackground>
 
         )
     }
+
 
     const renderFlatlist = () => {
         return (

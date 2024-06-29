@@ -31,7 +31,7 @@ const CommonCart = ({
             <View style={styles.orderContainer}>
                 <View style={styles.row}>
                     <Image source={images.orderImg} style={styles.image} />
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{ alignItems: 'center',marginLeft:10 }}>
                         <Text style={styles.orderItemText}>{itemText}</Text>
                         <View style={styles.priceRow}>
                             <Text style={styles.orderDetails}>{quantityText}</Text>

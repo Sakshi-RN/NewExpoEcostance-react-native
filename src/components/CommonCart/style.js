@@ -22,7 +22,7 @@ export default StyleSheet.create({
     orderContainer: {
         backgroundColor: Colors.WHITE,
         padding: responsiveHeight(2),
-        marginTop: responsiveHeight(2),
+        marginTop: responsiveHeight(1),
         borderWidth: 1,
         borderColor: Colors.lightgrey,
         borderRadius: 12
@@ -67,6 +67,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+
     },
     icon: {
         marginRight: responsiveWidth(2),
