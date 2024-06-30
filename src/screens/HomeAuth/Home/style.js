@@ -1,84 +1,104 @@
-import {Platform, StyleSheet} from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { Colors } from "../../../theme/colors";
 import { Fonts } from "../../../theme/fonts";
 import { dynamicSize } from "../../../utilities/helpers";
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveWidth,responsiveFontSize } from "react-native-responsive-dimensions";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:Colors.white,
+        backgroundColor: Colors.white,
     },
-    topBanner:{
-        backgroundColor:Colors.white,
-     flex:1
+    topBanner: {
+        backgroundColor: Colors.white,
+        flex: 1
     },
-    loginContainer:{
-        flex:1,
-        flexDirection:'column',
-        paddingTop:Platform.OS =="ios" ? responsiveHeight(2) :0
+    loginContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        paddingTop: Platform.OS == "ios" ? responsiveHeight(2) : 0
     },
-    shoppingCartRow:{
-        flexDirection:'row',
-        backgroundColor:'red'
-        
-    },
-    backgroundStyle:{
-        height: responsiveHeight(10),
-        paddingTop:responsiveHeight(2),
-        flexDirection:'row',
+    shoppingCartRow: {
+        flexDirection: 'row',
+        width:responsiveWidth(18),
         alignItems:'center',
         justifyContent:'center'
+
     },
-    shoppingCartButton:{
-      marginHorizontal:responsiveWidth(2),
-        marginTop:responsiveHeight(3)
+    backgroundStyle: {
+        height: responsiveHeight(10),
+        paddingTop: responsiveHeight(2),
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal:responsiveWidth(5)
+
+
     },
-    bottomRowAdjust:{
-        position:'absolute',
-        bottom:0,
-        right:0,
-        left:0,
-        top:0,
+    CartButton: {
+        marginTop: responsiveHeight(3),
+   
+    },
+    wishlistButton: {
+        marginTop: responsiveHeight(3),
+        marginRight:5
+
+    },
+    bottomRowAdjust: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
+        top: 0,
         // backgroundColor:Colors.OFFBLACK,
         // opacity:0.3
     },
-    bottomButtonAdjust:{
-        position:'absolute',
-        bottom:30,
-        right:0
+    bottomButtonAdjust: {
+        position: 'absolute',
+        bottom: 30,
+        right: 0
     },
-    bottomRow:{
-        flexDirection:'column',
-        justifyContent:'flex-end',
-        alignContent:'flex-end',
+    bottomRow: {
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignContent: 'flex-end',
         paddingHorizontal: dynamicSize(8, true),
     },
-    plusIconWrapper:{
-        width:70,
-        height:70,
-        backgroundColor:Colors.black,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:35
+    plusIconWrapper: {
+        width: 70,
+        height: 70,
+        backgroundColor: Colors.black,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 35
     },
-    percentIconButton:{
-        width:70,
-        height:70, 
-        backgroundColor:Colors.WHITE,
-        borderRadius:35,
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:20
+    percentIconButton: {
+        width: 70,
+        height: 70,
+        backgroundColor: Colors.WHITE,
+        borderRadius: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20
     },
-    crossIconButton:{
-        width:70,
-        height:70, 
-        backgroundColor:"#75B1DC",
-        borderRadius:35,
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:20
-    }
-    
-    
+    crossIconButton: {
+        width: 70,
+        height: 70,
+        backgroundColor: "#75B1DC",
+        borderRadius: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20
+    },
+    headerText: {
+        fontFamily: Fonts.regular,
+        fontSize: responsiveFontSize(2.5),
+        color: Colors.OFFBLACK,
+      },
+      row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+  
+      },
+
+
 });
