@@ -51,7 +51,9 @@ const changeAddressSlice = createSlice({
   reducers: {
     Set_Address_Field(state, action) {
       const { field, value } = action.payload;
-      state.data[field] = value;
+      if (state.data[field] !== value) {
+        state.data[field] = value;
+      }
     },
   },
   extraReducers: (builder) => {
