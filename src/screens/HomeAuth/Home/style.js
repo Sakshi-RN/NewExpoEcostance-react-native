@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from "react-native";
 import { Colors } from "../../../theme/colors";
 import { Fonts } from "../../../theme/fonts";
 import { dynamicSize } from "../../../utilities/helpers";
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveWidth,responsiveFontSize } from "react-native-responsive-dimensions";
 export default StyleSheet.create({
     container: {
         flex: 1,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
         marginTop: responsiveHeight(3),
    
     },
-    wishlistCartButton: {
+    wishlistButton: {
         marginTop: responsiveHeight(3),
         marginRight:5
 
@@ -87,7 +87,18 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20
-    }
+    },
+    headerText: {
+        fontFamily: Fonts.regular,
+        fontSize: responsiveFontSize(2.5),
+        color: Colors.OFFBLACK,
+      },
+      row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+  
+      },
 
 
 });

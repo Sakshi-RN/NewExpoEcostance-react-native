@@ -5,7 +5,9 @@ import {
     FlatList,
     TouchableOpacity,
     ActivityIndicator,
-    ImageBackground} from 'react-native';
+    ImageBackground,
+    Modal
+} from 'react-native';
 import { connect } from 'react-redux';
 import ImageWrapper from '../../../components/image';
 import imagePaths from '../../../utilities/imagePaths';
@@ -15,14 +17,16 @@ import styles from './style';
 import { HeartIcon, ShoppingCartIcon, PlusWhiteIcon } from '../../../assets';
 import { Colors } from '../../../theme/colors';
 import { fetchProducts } from '../../../redux/features/getetProductReducer';
-import CommonHeader from '../../../components/HomeHeaders/CommonHeader';
+import CommonHeader from '../../../components//HomeHeaders/CommonHeader'
+import Wishlist from '../Wishlist';
+import Cart from '../Cart';
 
 
 const Home = ({ products, loading, error, fetchProducts, navigation, metadata }) => {
 
     const [showToggle, setShowToggle] = useState(false);
-    const [wishlistVisible, setWishlistVisible] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [isWishlistModalVisible, setWishlistModalVisible] = useState(false);
+    const [isCartModalVisible, setCartModalVisible] = useState(false);
 
     const listRef = useRef(null);
 
@@ -34,23 +38,24 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
         fetchProducts({ page: 1 });
     };
     const handleBackPress = () => {
-
         navigation.goBack();
     };
 
-    const openModal = () => {
-        setModalVisible(true);
-        Animated.timing(translateX, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-    };
+
     const handleEndReached = () => {
         if (!loading && metadata.nextPage) {
             fetchProducts({ page: metadata.nextPage });
         }
     };
+
+    const toggleWishlistModal = () => {
+        setWishlistModalVisible(!isWishlistModalVisible);
+    };
+
+    const toggleCartModal = () => {
+        setCartModalVisible(!isCartModalVisible);
+    };
+
     const renderHeader = () => {
         return (
 
@@ -58,21 +63,17 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
                 source={imagePaths.loginTopVector}
                 style={styles.backgroundStyle}
             >
-                <TouchableOpacity onPress={handleBackPress} style={styles.wishlistCartButton} >
+                <TouchableOpacity onPress={handleBackPress} style={styles.wishlistButton} >
                     <Entypo name="chevron-left" size={25} color={Colors.BLACK} />
 
                 </TouchableOpacity>
-                <CommonHeader
-                />
+                <CommonHeader />
 
                 <View style={styles.shoppingCartRow}>
-                    <TouchableOpacity style={styles.wishlistCartButton} 
-                      onPress={() => navigation.navigate("Wishlist")}>
-                        <HeartIcon />
+                <TouchableOpacity style={styles.wishlistButton} onPress={toggleWishlistModal}>
+                <HeartIcon />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.CartButton]}
-                        onPress={() => navigation.navigate("Cart")}
-                    >
+                    <TouchableOpacity style={[styles.CartButton]} onPress={toggleCartModal}>
                         <ShoppingCartIcon />
                     </TouchableOpacity>
                 </View>
@@ -178,15 +179,50 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
         )
     }
 
+    const wishlistModal = () => {
+        <Modal
+        visible={isWishlistModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleWishlistModal}
+        >
+            <View style={styles.row}>
+                <Text style={styles.headerText}>Wishlist</Text>
+                <TouchableOpacity onPress={toggleWishlistModal}>
+                    <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
+                </TouchableOpacity>
+            </View>
+            <Wishlist/>
+        </Modal>
+    }
+
+    const CartModal = () => {
+        <Modal
+        visible={isCartModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleCartModal}
+        >
+            <View style={styles.row}>
+                <Text style={styles.headerText}>Cart</Text>
+                <TouchableOpacity onPress={toggleCartModal}>
+                    <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
+                </TouchableOpacity>
+            </View>
+            <Cart/>
+        </Modal>
+    }
+
+
     return (
 
         <View style={styles.topBanner}>
             {renderHeader()}
             {renderFlatlist()}
             {renderToggle()}
+            {wishlistModal()}
+            {CartModal()}
         </View>
-
-
 
     );
 };

@@ -9,24 +9,12 @@ import { responsiveHeight } from 'react-native-responsive-dimensions';
 import { Colors } from '../../../theme/colors';
 
 const Cart = ({ navigation }) => {
-    const handleBackPress = () => {
-        navigation.goBack();
-    };
 
     const handleContinue = () => {
         navigation.navigate('Address');
     };
 
-    const renderHeader = () => {
-        return (
-            <View style={styles.row}>
-                <Text style={styles.headerText}>Cart</Text>
-                <TouchableOpacity onPress={handleBackPress}>
-                    <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
-                </TouchableOpacity>
-            </View>
-        )
-    }
+
 
     const [couponValue, setCouponValue] = useState('');
     const handleApplyCoupon = () => {
@@ -128,7 +116,6 @@ const Cart = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {renderHeader()}
             <FlatList
                 data={mockData}
                 showVerticalScrollIndicator={false}

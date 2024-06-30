@@ -1,14 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import CommonCart from '../../../components/CommonCart';
 import styles from './style';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { Colors } from '../../../theme/colors';
 
-const Wishlist = ({ navigation }) => {
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
+
+const Wishlist = () => {
 
   const orders = [
     { id: 1, itemText: 'Winston Creek IFM Project (1)', quantityText: '2 x $25.00 /', priceText: '$20.00', totalPriceText: '$40.00' },
@@ -18,16 +14,7 @@ const Wishlist = ({ navigation }) => {
     { id: 5, itemText: 'Forest Cabin (5)', quantityText: '2 x $20.00 /', priceText: '$20.00', totalPriceText: '$40.00' },
   ];
 
-  const renderHeader = () => {
-    return (
-      <View style={styles.row}>
-        <Text style={styles.headerText}>Wishlist</Text>
-        <TouchableOpacity onPress={handleBackPress}>
-          <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
-        </TouchableOpacity>
-      </View>
-    );
-  };
+
 
   const renderItem = ({ item }) => (
     <CommonCart
@@ -41,7 +28,6 @@ const Wishlist = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {renderHeader()}
       <FlatList
         data={orders}
         renderItem={renderItem}
