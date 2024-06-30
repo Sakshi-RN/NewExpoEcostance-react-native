@@ -44,21 +44,19 @@ const ChangeAddress = () => {
   };
 
   const handleSelectCountry = (countryObject) => {
-    dispatch(
-      Set_Address_Field({ field: "country", value: countryObject.isoCode })
-    );
+    setSelectedCountry(countryObject.name);
+    dispatch(Set_Address_Field({ field: "country", value: countryObject.isoCode }));
     dispatch(Set_Address_Field({ field: "state", value: "" }));
     dispatch(Set_Address_Field({ field: "city", value: "" }));
     setIsCountryModalVisible(false);
-    setSelectedCountry(countryObject.name);
     setCountryError("");
   };
 
   const handleSelectState = (stateObject) => {
+    setSelectedState(stateObject.name);
     dispatch(Set_Address_Field({ field: "state", value: stateObject.isoCode }));
     dispatch(Set_Address_Field({ field: "city", value: "" }));
     setIsStateModalVisible(false);
-    setSelectedState(stateObject.name);
     setStateError("");
   };
 
@@ -102,8 +100,22 @@ const ChangeAddress = () => {
       return;
     }
 
-    dispatch(Change_Address(address));
+    dispatch(Change_Address(address)); // Trigger the async action here
     navigation.goBack();
+  };
+
+  const handleAddressLine1Change = (text) => {
+    dispatch(Set_Address_Field({ field: "addressLine1", value: text }));
+    setAddressLine1Error("");
+  };
+
+  const handleAddressLine2Change = (text) => {
+    dispatch(Set_Address_Field({ field: "addressLine2", value: text }));
+  };
+
+  const handlePincodeChange = (text) => {
+    dispatch(Set_Address_Field({ field: "pincode", value: text }));
+    setPincodeError("");
   };
 
   const renderCountryList = () => {
@@ -178,10 +190,7 @@ const ChangeAddress = () => {
         <InputField
           placeholder="Address Line 1"
           value={address.addressLine1}
-          onChangeText={(text) => {
-            dispatch(Set_Address_Field({ field: "addressLine1", value: text }));
-            setAddressLine1Error("");
-          }}
+          onChangeText={handleAddressLine1Change}
         />
         {addressLine1Error ? (
           <Text style={styles.errorText}>{addressLine1Error}</Text>
@@ -190,18 +199,13 @@ const ChangeAddress = () => {
         <InputField
           placeholder="Address Line 2"
           value={address.addressLine2}
-          onChangeText={(text) => {
-            dispatch(Set_Address_Field({ field: "addressLine2", value: text }));
-          }}
+          onChangeText={handleAddressLine2Change}
         />
 
         <InputField
           placeholder="ZIP Code / Pin code"
           value={address.pincode}
-          onChangeText={(text) => {
-            dispatch(Set_Address_Field({ field: "pincode", value: text }));
-            setPincodeError("");
-          }}
+          onChangeText={handlePincodeChange}
         />
         {pincodeError ? (
           <Text style={styles.errorText}>{pincodeError}</Text>

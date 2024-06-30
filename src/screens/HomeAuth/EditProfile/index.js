@@ -30,13 +30,15 @@ const EditProfile = ({ navigation }) => {
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   const { countryCodes, countryName } = useSelector((state) => state.country);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("");
   const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
 
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
 
   const handleSelectCountry = (country) => {
-    setSelectedCountry(country);
+    setSelectedCountryCode(country.isoCode);
+    setSelectedCountry(country.name);
     setIsCountryModalVisible(false);
   };
 
@@ -50,18 +52,6 @@ const EditProfile = ({ navigation }) => {
     label: code.currencyName,
     value: code.currency,
   }));
-
-  // useEffect(() => {
-  //   if (profile && profile.data) {
-  //     setFirstName(profile.data.firstName || "");
-  //     setLastName(profile.data.lastName || "");
-  //     setEmail(profile.data.email || "");
-  //     setSelectedDate(new Date(profile.data.dob) || "");
-  //     setSelectedImage(profile.data.profileImage || "");
-  //     setSelectedCurrency(profile.data.checkoutDefaultCurrency || "");
-  //     setSelectedCountry(profile.data.phone.countryCode || "");
-  //   }
-  // }, [profile]);
 
   useEffect(() => {
     if (profile && profile.data) {
