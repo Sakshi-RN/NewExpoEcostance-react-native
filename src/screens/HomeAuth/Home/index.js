@@ -56,25 +56,27 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
         setCartModalVisible(!isCartModalVisible);
     };
 
+
     const renderHeader = () => {
         return (
 
-            <ImageBackground
-                source={imagePaths.loginTopVector}
-                style={styles.backgroundStyle}
-            >
-                <TouchableOpacity onPress={handleBackPress} style={styles.wishlistButton} >
+            <ImageBackground source={imagePaths.loginTopVector} style={styles.backgroundStyle}>
+                <TouchableOpacity onPress={handleBackPress} style={styles.wishlistButton}>
                     <Entypo name="chevron-left" size={25} color={Colors.BLACK} />
-
                 </TouchableOpacity>
                 <CommonHeader />
-
                 <View style={styles.shoppingCartRow}>
-                <TouchableOpacity style={styles.wishlistButton} onPress={toggleWishlistModal}>
-                <HeartIcon />
+                    <TouchableOpacity style={styles.wishlistButton} onPress={toggleWishlistModal}>
+                        <HeartIcon />
+                        <View style={styles.badgeContainer}>
+                            <Text style={styles.badgeText}>3</Text>
+                        </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.CartButton]} onPress={toggleCartModal}>
+                    <TouchableOpacity style={styles.CartButton} onPress={toggleCartModal}>
                         <ShoppingCartIcon />
+                        <View style={styles.badgeContainer}>
+                            <Text style={styles.badgeText}>3</Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
@@ -181,10 +183,10 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
 
     const wishlistModal = () => {
         <Modal
-        visible={isWishlistModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={toggleWishlistModal}
+            visible={isWishlistModalVisible}
+            animationType="slide"
+            transparent={true}
+            onRequestClose={toggleWishlistModal}
         >
             <View style={styles.row}>
                 <Text style={styles.headerText}>Wishlist</Text>
@@ -192,16 +194,16 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
                     <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
                 </TouchableOpacity>
             </View>
-            <Wishlist/>
+            <Wishlist />
         </Modal>
     }
 
     const CartModal = () => {
         <Modal
-        visible={isCartModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={toggleCartModal}
+            visible={isCartModalVisible}
+            animationType="slide"
+            transparent={true}
+            onRequestClose={toggleCartModal}
         >
             <View style={styles.row}>
                 <Text style={styles.headerText}>Cart</Text>
@@ -209,7 +211,7 @@ const Home = ({ products, loading, error, fetchProducts, navigation, metadata })
                     <Entypo name="cross" size={25} color={Colors.OFFBLACK} />
                 </TouchableOpacity>
             </View>
-            <Cart/>
+            <Cart />
         </Modal>
     }
 

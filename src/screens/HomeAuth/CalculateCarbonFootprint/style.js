@@ -2,6 +2,9 @@ import {Platform, StyleSheet} from "react-native";
 import { Colors } from "../../../theme/colors";
 import { Fonts } from "../../../theme/fonts";
 import { dynamicSize } from "../../../utilities/helpers";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+
+
 export default StyleSheet.create({
     container: {
         flex: 1,
@@ -9,14 +12,20 @@ export default StyleSheet.create({
     },
     scrolViewWrapper:{
         flex: 1,
-        backgroundColor:Colors.white
+        backgroundColor:Colors.white,
+        marginHorizontal:20
+    },
+    backgroundStyle: {
+        height: responsiveHeight(10),
+        paddingTop:responsiveHeight(2)
     },
     topBanner:{
         flexDirection:'column',
-        height:89
+        height:89,
+        backgroundColor:'red'
     },
     calculateRowHeader:{
-        paddingTop:Platform.OS =="ios" ? 60 :25,
+        paddingTop:Platform.OS =="ios" ? 40 :15,
         paddingHorizontal: dynamicSize(12, true)
     },
     headerRowAdjust:{
@@ -31,11 +40,15 @@ export default StyleSheet.create({
         paddingHorizontal: dynamicSize(12, true),
         paddingTop:Platform.OS =="ios" ? 30 :0
     },
+    countryContainer:{
+marginTop:10
+    },
     chooseAmountLabel:{
-        fontSize:22,
-        lineHeight:29.35,
+        fontSize:20,
         color:Colors.OFFBLACK,
-        fontFamily:Fonts.medium
+        fontFamily:Fonts.medium,
+        alignSelf:'center',
+        marginTop:5
     },
     calculateVectorCenter:{
         flex:1,
@@ -83,8 +96,9 @@ export default StyleSheet.create({
         flexDirection:'row',
         marginTop:20,
         backgroundColor:'#EDF8F5',
-        // justifyContent:'space-between',
-        alignItems:'center'
+        justifyContent:'space-between',
+        alignItems:'center',
+        height:60
     },
     memberContainer:{
         flexDirection:'column',
@@ -93,10 +107,10 @@ export default StyleSheet.create({
     },
     memberText:{
         fontSize:15,
-        lineHeight:21.94,
-        color:Colors.SECONDARY,
-        fontFamily:Fonts.regular,
-        textAlign:'center'
+        color:Colors.OFFBLACK,
+        fontFamily:Fonts.medium,
+        marginTop:5
+    
     },
     slideContainer:{
         flexDirection: 'row',
@@ -105,7 +119,7 @@ export default StyleSheet.create({
         marginBottom:10
     },
     IncomeContainer:{
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     tabsContainer: {
         paddingVertical:10,
@@ -114,7 +128,7 @@ export default StyleSheet.create({
     tabStyle: {
         borderColor: 'transparent',
         backgroundColor: '#E0E0E0',
-        paddingVertical: 10,
+        paddingVertical:2,
     },
     activeTabStyle: {
         backgroundColor: '#7BA986',
@@ -170,17 +184,21 @@ export default StyleSheet.create({
         fontFamily:Fonts.regular
     },
     totalCarbonsText:{
-        fontSize:32,
-        lineHeight:37.54,
+        fontSize:responsiveFontSize(4),
         color: Colors.OFFBLACK,
         fontFamily:Fonts.medium,
-        marginRight:10
+
+        marginLeft:responsiveWidth(-10)
     },
     annualText:{
-        fontSize:15,
-        lineHeight:21.94,
+        fontSize:responsiveFontSize(1.8),
         color: Colors.OFFBLACK,
-        fontFamily:Fonts.regular
+        fontFamily:Fonts.regular,
+        width:responsiveWidth(68),
+        lineHeight:20,
+        marginHorizontal:responsiveWidth(3),
+
+
     },
     carbonTextRow:{
         flexDirection:'row',
@@ -203,7 +221,7 @@ export default StyleSheet.create({
     },
     flexContainer:{
         // padding: 20,
-        alignItems: 'center',
+
         marginBottom:10
     },
     label: {

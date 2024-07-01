@@ -39,17 +39,31 @@ export default StyleSheet.create({
     },
     wishlistButton: {
         marginTop: responsiveHeight(3),
-        marginRight:5
+        marginRight:responsiveWidth(3)
 
     },
+    badgeContainer: {
+        position: 'absolute',
+        right: -7,
+        top: -8,
+        backgroundColor: Colors.DARKRED,
+        borderRadius: 8,
+        width: 15,
+        height: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      badgeText: {
+        color: Colors.WHITE,
+        fontSize: responsiveFontSize(1.5),
+        fontFamily:Fonts.regular
+      },
     bottomRowAdjust: {
         position: 'absolute',
         bottom: 0,
         right: 0,
         left: 0,
         top: 0,
-        // backgroundColor:Colors.OFFBLACK,
-        // opacity:0.3
     },
     bottomButtonAdjust: {
         position: 'absolute',
