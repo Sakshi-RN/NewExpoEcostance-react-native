@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     },
     headerAdjustment:{
         position:'absolute',
-        top:0,
+        top:-30,
         left:0,
-        right:0
+        right:0,
     },
     standardWrapper:{
         width:50,
